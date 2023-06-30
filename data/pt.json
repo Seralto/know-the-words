@@ -1,0 +1,21 @@
+{
+  "body": {
+    "abdomen": "Abdômen",
+    "ankle": "Tornozelo",
+    "arm": "Braço",
+    "back": "Costas",
+    "chest": "Peito",
+    "elbow": "Cotovelo",
+    "foot": "Pé",
+    "hand": "Mão",
+    "head": "Cabeça",
+    "hip": "Quadril",
+    "knee": "Joelho",
+    "leg": "Perna",
+    "neck": "Pescoço",
+    "shoulder": "Ombro",
+    "thigh": "Coxa",
+    "waist": "Cintura",
+    "wrist": "Pulso"
+  }
+}

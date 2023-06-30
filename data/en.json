@@ -1,0 +1,22 @@
+{
+  "body":
+    {
+      "abdomen": "Abdomen",
+      "ankle": "Ankle",
+      "arm": "Arm",
+      "back": "Back",
+      "chest": "Chest",
+      "elbow": "Elbow",
+      "foot": "Foot",
+      "hand": "Hand",
+      "head": "Head",
+      "hip": "Hip",
+      "knee": "Knee",
+      "leg": "Leg",
+      "neck": "Neck",
+      "shoulder": "Shoulder",
+      "thigh": "Thigh",
+      "waist": "Waist",
+      "wrist": "Wrist"
+    }
+}
