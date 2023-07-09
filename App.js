@@ -1,96 +1,93 @@
-import React, { useEffect } from "react";
-import {
-  View,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from "react-native";
-import * as Speech from "expo-speech";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
 
-const en = require("./data/en.json");
-const pt = require("./data/pt.json");
-const es = require("./data/es.json");
+import Categories from "./components/Categories";
+import BottomBar from "./components/BottomBar";
+import Flashcards from "./components/Flashcards";
+import Settings from "./components/Settings";
 
-// const dictionaries = {
-//   en: require("./data/en.json"),
-//   pt: require("./data/pt.json"),
-//   en: require("./data/en.json"),
-// };
+const DEFAULT_PAGE = "settings";
+const DEFAULT_CATEGORY = "body";
+const DEFAULT_LANGUAGE = "en";
+
+const dictionaries = {
+  en: require("./data/en.json"),
+  pt: require("./data/pt.json"),
+  es: require("./data/es.json"),
+};
 
 export default function App() {
-  useEffect(() => {
-    console.log(pt["body"]["arm"]);
-  }, []);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
+  const [category, setCurrentCategory] = useState(DEFAULT_CATEGORY);
+  const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
+  const [selectedLearnLanguages, setSelectedLearnLanguages] = useState([]);
 
-  const speak = (text, language) => {
-    Speech.speak(text, {
-      // language: 'en-US',
-      // language: 'pt-BR',
-      // language: "es-ES",
-      language: language,
-    });
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleCategoryChange = (category) => {
+    setCurrentCategory(category);
+    setCurrentPage("flashcards");
+  };
+
+  const handleLanguageChange = (language) => {
+    setLanguage(language);
+    setSelectedLearnLanguages([]);
+  };
+
+  const handleLearnLanguageChange = (languages) => {
+    setSelectedLearnLanguages(languages);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Body</Text>
-      <ScrollView>
-        {Object.keys(en["body"]).map((key) => (
-          <View style={styles.row} key={key}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => speak(pt["body"][key], "pt-BR")}
-            >
-              <Text style={styles.buttonText}>{pt["body"][key]}</Text>
-            </TouchableOpacity>
+    <View style={styles.app}>
+      <View style={styles.pages}>
+        {currentPage === "categories" && (
+          <Categories
+            language={language}
+            categories={dictionaries[language]["categories"]}
+            onCategoryChange={handleCategoryChange}
+          />
+        )}
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => speak(en["body"][key], "en-US")}
-            >
-              <Text style={styles.buttonText}>{en["body"][key]}</Text>
-            </TouchableOpacity>
+        {currentPage === "flashcards" && (
+          <Flashcards
+            language={language}
+            category={category}
+            dictionaries={dictionaries}
+            selectedLearnLanguages={selectedLearnLanguages}
+          />
+        )}
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => speak(es["body"][key], "es-ES")}
-            >
-              <Text style={styles.buttonText}>{es["body"][key]}</Text>
-            </TouchableOpacity>
-          </View>
-        ))}
-      </ScrollView>
+        {currentPage === "settings" && (
+          <Settings
+            language={language}
+            dictionaries={dictionaries}
+            selectedLearnLanguages={selectedLearnLanguages}
+            onLanguageChange={handleLanguageChange}
+            onLearnLanguageChange={handleLearnLanguageChange}
+          />
+        )}
+      </View>
+
+      <BottomBar
+        language={language}
+        dictionaries={dictionaries}
+        onPageChange={handlePageChange}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  app: {
+    flex: 1,
+    backgroundColor: "#f7ead2",
+  },
+  pages: {
     flex: 1,
     marginTop: 20,
-  },
-  title: {
-    fontSize: 26,
-    color: "#c3c3c3",
-    marginTop: 40,
-    marginBottom: 20,
-  },
-  row: {
-    backgroundColor: "#c3c3c3",
-    padding: 10,
-    flexDirection: "row",
-    marginBottom: 10,
-  },
-  button: {
-    flex: 1,
-    backgroundColor: "#0f5389",
-    borderRadius: 5,
-    padding: 10,
-    marginHorizontal: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    textAlign: "center",
+    marginBottom: 100,
   },
 });
