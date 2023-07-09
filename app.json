@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "knowords",
-    "slug": "knowords",
+    "name": "Know The Words",
+    "slug": "know-the-words",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +18,13 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
+      "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.seralto.knowthewords"
     },
     "web": {
       "favicon": "./assets/favicon.png"
