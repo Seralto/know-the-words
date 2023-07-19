@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Categories from "./components/Categories";
 import BottomBar from "./components/BottomBar";
 import Flashcards from "./components/Flashcards";
 import Settings from "./components/Settings";
 
-const DEFAULT_PAGE = "settings";
+const SETTINGS_PAGE = "settings";
+const FLASHCARDS_PAGE = "flashcards";
+const DEFAULT_PAGE = "categories";
 const DEFAULT_CATEGORY = "body";
 const DEFAULT_LANGUAGE = "en";
 
@@ -18,26 +21,53 @@ const dictionaries = {
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
-  const [category, setCurrentCategory] = useState(DEFAULT_CATEGORY);
+  const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
-  const [selectedLearnLanguages, setSelectedLearnLanguages] = useState([]);
+  const [learnLanguages, setLearnLanguages] = useState([]);
+
+  useEffect(() => {
+    getDefaultLanguage();
+    getLearnLanguages();
+  }, []);
+
+  const getDefaultLanguage = () => {
+    AsyncStorage.getItem("defaultLanguage").then((language) => {
+      setLanguage(language || DEFAULT_LANGUAGE);
+    });
+  };
+
+  const getLearnLanguages = () => {
+    AsyncStorage.getItem("learnLanguages").then((storedLanguages) => {
+      const langList =
+        storedLanguages !== null ? storedLanguages.split(",") : [];
+      setLearnLanguages(langList);
+      getStartPage(langList);
+    });
+  };
+
+  const getStartPage = (langList) => {
+    const page = langList.length === 0 ? SETTINGS_PAGE : DEFAULT_PAGE;
+    setCurrentPage(page);
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
   const handleCategoryChange = (category) => {
-    setCurrentCategory(category);
-    setCurrentPage("flashcards");
+    setCategory(category);
+    setCurrentPage(FLASHCARDS_PAGE);
   };
 
   const handleLanguageChange = (language) => {
+    AsyncStorage.setItem("defaultLanguage", language);
     setLanguage(language);
-    setSelectedLearnLanguages([]);
+    setLearnLanguages([]);
   };
 
-  const handleLearnLanguageChange = (languages) => {
-    setSelectedLearnLanguages(languages);
+  const handleLearnLanguageChange = (learnLanguages) => {
+    AsyncStorage.setItem("learnLanguages", learnLanguages.toString());
+    setLearnLanguages(learnLanguages);
   };
 
   return (
@@ -56,7 +86,7 @@ export default function App() {
             language={language}
             category={category}
             dictionaries={dictionaries}
-            selectedLearnLanguages={selectedLearnLanguages}
+            learnLanguages={learnLanguages}
           />
         )}
 
@@ -64,7 +94,7 @@ export default function App() {
           <Settings
             language={language}
             dictionaries={dictionaries}
-            selectedLearnLanguages={selectedLearnLanguages}
+            learnLanguages={learnLanguages}
             onLanguageChange={handleLanguageChange}
             onLearnLanguageChange={handleLearnLanguageChange}
           />

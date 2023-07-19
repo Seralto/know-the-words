@@ -9,26 +9,16 @@ import {
 
 import * as Speech from "expo-speech";
 
-const Flashcards = ({
-  language,
-  category,
-  dictionaries,
-  selectedLearnLanguages,
-}) => {
+const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
   const speak = (text, language) => {
     Speech.speak(text, {
-      // language: 'en-US',
-      // language: 'pt-BR',
-      // language: "es-ES",
       language: language,
     });
   };
 
   const sort = (obj) => {
     const arr = Object.entries(obj);
-
     arr.sort((a, b) => a[1].localeCompare(b[1]));
-
     return arr.reduce((acc, [key, value]) => {
       acc[key] = value;
       return acc;
@@ -48,7 +38,7 @@ const Flashcards = ({
               {dictionaries[language][category][key]}
             </Text>
 
-            {selectedLearnLanguages.includes("pt") && (
+            {learnLanguages.includes("pt") && (
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => speak(dictionaries.pt[category][key], "pt-BR")}
@@ -59,7 +49,7 @@ const Flashcards = ({
               </TouchableOpacity>
             )}
 
-            {selectedLearnLanguages.includes("en") && (
+            {learnLanguages.includes("en") && (
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => speak(dictionaries.en[category][key], "en-US")}
@@ -70,7 +60,7 @@ const Flashcards = ({
               </TouchableOpacity>
             )}
 
-            {selectedLearnLanguages.includes("es") && (
+            {learnLanguages.includes("es") && (
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => speak(dictionaries.es[category][key], "es-ES")}
@@ -107,17 +97,17 @@ const styles = StyleSheet.create({
   },
   word: {
     padding: 10,
-    fontSize: 16,
+    fontSize: 15,
     color: "#555555",
-    width: 100,
+    width: 110,
     flexShrink: 0,
     flexGrow: 0,
   },
   button: {
     flex: 1,
     backgroundColor: "#0f5389",
+    justifyContent: "center",
     borderRadius: 5,
-    padding: 10,
     marginHorizontal: 5,
   },
   buttonText: {

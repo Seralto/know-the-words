@@ -5,7 +5,7 @@ import { RadioButton, Checkbox } from "react-native-paper";
 const Settings = ({
   language,
   dictionaries,
-  selectedLearnLanguages,
+  learnLanguages,
   onLanguageChange,
   onLearnLanguageChange,
 }) => {
@@ -16,10 +16,38 @@ const Settings = ({
   };
 
   const handleLearnLanguageChange = (language) => {
-    const updatedLearnLanguages = selectedLearnLanguages.includes(language)
-      ? selectedLearnLanguages.filter((item) => item !== language)
-      : [...selectedLearnLanguages, language];
+    const updatedLearnLanguages = learnLanguages.includes(language)
+      ? learnLanguages.filter((item) => item !== language)
+      : [...learnLanguages, language];
     onLearnLanguageChange(updatedLearnLanguages);
+  };
+
+  const renderLanguageRadiobutton = (languageOption) => {
+    return (
+      <View key={languageOption} style={styles.option}>
+        <RadioButton
+          value={languageOption}
+          status={language === languageOption ? "checked" : "unchecked"}
+          onPress={() => handleLanguageChange(languageOption)}
+        />
+        <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
+      </View>
+    );
+  };
+
+  const renderLanguageCheckbox = (languageOption) => {
+    return (
+      <View key={languageOption} style={styles.option}>
+        <Checkbox
+          status={
+            learnLanguages.includes(languageOption) ? "checked" : "unchecked"
+          }
+          onPress={() => handleLearnLanguageChange(languageOption)}
+          disabled={languageOption === language}
+        />
+        <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
+      </View>
+    );
   };
 
   return (
@@ -33,18 +61,9 @@ const Settings = ({
           {dictionaries[language].pages.settings.language}
         </Text>
 
-        {Object.keys(languageOptions).map((languageOption) => (
-          <View key={languageOption} style={styles.option}>
-            <RadioButton
-              value={languageOption}
-              status={language === languageOption ? "checked" : "unchecked"}
-              onPress={() => handleLanguageChange(languageOption)}
-            />
-            <Text style={styles.optionText}>
-              {languageOptions[languageOption]}
-            </Text>
-          </View>
-        ))}
+        {Object.keys(languageOptions).map((languageOption) =>
+          renderLanguageRadiobutton(languageOption)
+        )}
       </View>
 
       <View style={styles.section}>
@@ -52,28 +71,11 @@ const Settings = ({
           {dictionaries[language].pages.settings.learn}
         </Text>
 
-        {Object.keys(languageOptions).map((languageOption) => (
-          <View key={languageOption} style={styles.option}>
-            <Checkbox
-              status={
-                selectedLearnLanguages.includes(languageOption)
-                  ? "checked"
-                  : "unchecked"
-              }
-              onPress={() => handleLearnLanguageChange(languageOption)}
-              disabled={languageOption === language}
-            />
-            <Text
-              style={
-                languageOption === language
-                  ? styles.optionTextDisabled
-                  : styles.optionText
-              }
-            >
-              {languageOptions[languageOption]}
-            </Text>
-          </View>
-        ))}
+        {Object.keys(languageOptions).map(
+          (languageOption) =>
+            languageOption !== language &&
+            renderLanguageCheckbox(languageOption)
+        )}
       </View>
     </View>
   );
@@ -112,11 +114,6 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 16,
     color: "#333333",
-  },
-  optionTextDisabled: {
-    marginLeft: 8,
-    fontSize: 16,
-    color: "#1c1b1f61",
   },
 });
 

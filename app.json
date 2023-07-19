@@ -28,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8d146fad-9d63-48e1-b3c8-66205e1f44f5"
+      }
+    },
+    "owner": "seralto"
   }
 }
