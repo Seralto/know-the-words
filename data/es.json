@@ -17,16 +17,16 @@
     }
   },
   "categories": {
-    "body": "Cuerpo",
-    "head": "Cabeza",
-    "house": "Casa",
-    "emotions": "Emociones",
-    "animals": "Animales",
-    "clothes": "Ropa",
-    "tools": "Herramientas",
-    "organs": "Organos",
-    "verbs": "Verbos",
-    "objects": "Objetos"
+    "body": {"name": "Cuerpo", "icon": "person"},
+    "head": {"name": "Cabeza", "icon": "person"},
+    "house": {"name": "Casa", "icon": "person"},
+    "emotions": {"name": "Emociones", "icon": "person"},
+    "animals": {"name": "Animales", "icon": "person"},
+    "clothes": {"name": "Ropa", "icon": "person"},
+    "tools": {"name": "Herramientas", "icon": "person"},
+    "organs": {"name": "Organos", "icon": "person"},
+    "verbs": {"name": "Verbos", "icon": "person"},
+    "objects": {"name": "Objetos", "icon": "person"}
   },
   "body": {
     "abdomen": "Abdomen",

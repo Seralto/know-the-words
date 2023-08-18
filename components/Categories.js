@@ -1,6 +1,9 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
+import Icon from "react-native-vector-icons/FontAwesome";
+// import Icon from "react-native-vector-icons/MaterialIcons";
+
 const CategoriesPage = ({ language, categories, onCategoryChange }) => {
   const handleCategoryPress = (category) => {
     onCategoryChange(category);
@@ -13,7 +16,9 @@ const CategoriesPage = ({ language, categories, onCategoryChange }) => {
         style={styles.categoryTile}
         onPress={() => handleCategoryPress(category)}
       >
-        <Text style={styles.categoryTitle}>{categories[category]}</Text>
+        <Icon name={categories[category].icon} size={30} color="white" />
+
+        <Text style={styles.categoryTitle}>{categories[category].name}</Text>
       </TouchableOpacity>
     ));
   };
@@ -34,7 +39,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 10,
     margin: 10,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: "#6c5b7b",
   },
