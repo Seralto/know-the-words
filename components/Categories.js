@@ -1,8 +1,8 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
-import Icon from "react-native-vector-icons/FontAwesome";
-// import Icon from "react-native-vector-icons/MaterialIcons";
+// https://github.com/oblador/react-native-vector-icons/blob/master/glyphmaps/FontAwesome5Free.json
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const CategoriesPage = ({ language, categories, onCategoryChange }) => {
   const handleCategoryPress = (category) => {
@@ -16,7 +16,12 @@ const CategoriesPage = ({ language, categories, onCategoryChange }) => {
         style={styles.categoryTile}
         onPress={() => handleCategoryPress(category)}
       >
-        <Icon name={categories[category].icon} size={30} color="white" />
+        <FontAwesome5
+          name={categories[category].icon}
+          size={30}
+          color="white"
+          solid
+        />
 
         <Text style={styles.categoryTitle}>{categories[category].name}</Text>
       </TouchableOpacity>
