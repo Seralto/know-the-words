@@ -28,7 +28,7 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
-        {dictionaries[language].categories[category]}
+        {dictionaries[language].categories[category].name}
       </Text>
 
       <ScrollView>

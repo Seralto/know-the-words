@@ -17,16 +17,16 @@
     }
   },
   "categories": {
-    "body": {"name": "Body", "icon": "person"},
-    "head": {"name": "Head", "icon": "person"},
-    "house": {"name": "House", "icon": "person"},
-    "emotions": {"name": "Emotions", "icon": "person"},
-    "animals": {"name": "Animals", "icon": "person"},
-    "clothes": {"name": "Clothes", "icon": "person"},
-    "tools": {"name": "Tools", "icon": "person"},
-    "organs": {"name": "Organs", "icon": "person"},
-    "verbs": {"name": "Verbs", "icon": "person"},
-    "objects": {"name": "Objects", "icon": "person"}
+    "body": { "name": "Body", "icon": "male" },
+    "head": { "name": "Head", "icon": "user" },
+    "house": { "name": "House", "icon": "home" },
+    "emotions": { "name": "Emotions", "icon": "heart" },
+    "animals": { "name": "Animals", "icon": "dog" },
+    "clothes": { "name": "Clothes", "icon": "tshirt" },
+    "tools": { "name": "Tools", "icon": "hammer" },
+    "organs": { "name": "Organs", "icon": "lungs" },
+    "verbs": { "name": "Verbs", "icon": "running" },
+    "objects": { "name": "Objects", "icon": "chair" }
   },
   "body": {
     "abdomen": "Abdomen",
