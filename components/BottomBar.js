@@ -9,7 +9,7 @@ const BottomBar = ({ language, dictionaries, onPageChange }) => {
         onPress={() => onPageChange("categories")}
       >
         <Text style={styles.optionText}>
-          {dictionaries[language].pages.bottomBar.categories}
+          {dictionaries[language].pages.names.categories}
         </Text>
       </TouchableOpacity>
 
@@ -18,7 +18,7 @@ const BottomBar = ({ language, dictionaries, onPageChange }) => {
         onPress={() => onPageChange("flashcards")}
       >
         <Text style={styles.optionText}>
-          {dictionaries[language].pages.bottomBar.flashcards}
+          {dictionaries[language].pages.names.flashcards}
         </Text>
       </TouchableOpacity>
 
@@ -27,7 +27,7 @@ const BottomBar = ({ language, dictionaries, onPageChange }) => {
         onPress={() => onPageChange("settings")}
       >
         <Text style={styles.optionText}>
-          {dictionaries[language].pages.bottomBar.settings}
+          {dictionaries[language].pages.names.settings}
         </Text>
       </TouchableOpacity>
     </View>
@@ -39,8 +39,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 50,
     backgroundColor: "#ececec",
-    justifyContent: "space-around",
-    alignItems: "center",
   },
   option: {
     flex: 1,

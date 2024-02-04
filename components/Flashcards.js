@@ -83,13 +83,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 26,
-    color: "#555555",
+    color: "#fefefe",
     marginTop: 40,
     marginBottom: 20,
   },
   row: {
     flex: 1,
-    backgroundColor: "#c3c3c3",
+    backgroundColor: "#ececec",
     padding: 10,
     flexDirection: "row",
     marginBottom: 10,
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   buttonText: {
+    fontSize: 15,
     color: "#ffffff",
     textAlign: "center",
   },

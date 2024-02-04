@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 16,
-    color: "#555",
+    fontSize: 26,
+    color: "#fefefe",
+    marginTop: 40,
+    marginBottom: 20,
   },
   section: {
     marginBottom: 16,

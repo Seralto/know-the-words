@@ -77,6 +77,7 @@ export default function App() {
           <Categories
             language={language}
             categories={dictionaries[language]["categories"]}
+            dictionaries={dictionaries}
             onCategoryChange={handleCategoryChange}
           />
         )}
@@ -113,7 +114,7 @@ export default function App() {
 const styles = StyleSheet.create({
   app: {
     flex: 1,
-    backgroundColor: "#f7ead2",
+    backgroundColor: "#334756",
   },
   pages: {
     flex: 1,
