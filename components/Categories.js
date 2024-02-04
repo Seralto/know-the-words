@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     margin: 10,
     justifyContent: "space-evenly",
     alignItems: "center",
-    backgroundColor: "#F0A500",
+    backgroundColor: "#0f8987",
   },
   categoryTitle: {
     fontSize: 16,

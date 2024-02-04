@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    backgroundColor: "#0f5389",
+    backgroundColor: "#0f6f89",
     justifyContent: "center",
     borderRadius: 5,
     marginHorizontal: 5,
