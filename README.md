@@ -1,16 +1,10 @@
 # Know the Words App
 
-Hello! This free app was developed to help you learn a new language.
+Hello! This free app was developed to help you learn Spanish and Portuguese.
 
-<!-- ## Play Store
+## Play Store
 
 The app is available on [Google Play Store](https://play.google.com/store/apps/details?id=com.seralto.knowthewords).
-
-## Screenshots
-
-<div>
-  <img src="https://sergiotoledo.com.br/know-the-words/categories-en.png" alt="categories" width="200" align="left"/>
-</div> -->
 
 ## Dependencies
 
@@ -18,8 +12,10 @@ The app is available on [Google Play Store](https://play.google.com/store/apps/d
 
 [Expo](https://expo.dev/)
 
-## How to run
+[Expo Speech](https://docs.expo.dev/versions/latest/sdk/speech/)
 
-```shell
-$ expo start
-```
+<!-- ## Screenshots
+
+<div>
+  <img src="https://sergiotoledo.com.br/know-the-words/categories-en.png" alt="categories" width="200" align="left"/>
+</div> -->
