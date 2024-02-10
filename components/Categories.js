@@ -20,6 +20,14 @@ const CategoriesPage = ({
     onCategoryChange(category);
   };
 
+  const sort = (categories) => {
+    return Object.fromEntries(
+      Object.entries(categories).sort(([aKey, aValue], [bKey, bValue]) =>
+        aValue.name.localeCompare(bValue.name)
+      )
+    );
+  };
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
@@ -28,7 +36,7 @@ const CategoriesPage = ({
 
       <ScrollView>
         <View style={styles.categoriesContainer}>
-          {Object.keys(categories).map((category, index) => (
+          {Object.keys(sort(categories)).map((category, index) => (
             <TouchableOpacity
               key={index}
               style={styles.categoryTile}
@@ -66,6 +74,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     flexWrap: "wrap",
     flexDirection: "row",
+    marginBottom: 30,
   },
   categoryTile: {
     width: 110,

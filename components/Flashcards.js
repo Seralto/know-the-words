@@ -17,6 +17,11 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
   };
 
   const sort = (obj) => {
+    // Don't sort the calendar category, it's grouped by topic
+    if (category === "calendar") {
+      return obj;
+    }
+
     const arr = Object.entries(obj);
     arr.sort((a, b) => a[1].localeCompare(b[1]));
     return arr.reduce((acc, [key, value]) => {
