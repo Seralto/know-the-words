@@ -32,6 +32,27 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
       </Text>
 
       <ScrollView>
+        <View style={styles.languagesHeaderBox}>
+          <Text style={styles.word}>&nbsp;</Text>
+
+          {learnLanguages.includes("pt") && (
+            <Text style={styles.languageHeader}>
+              {dictionaries[language].languages.pt}
+            </Text>
+          )}
+
+          {learnLanguages.includes("en") && (
+            <Text style={styles.languageHeader}>
+              {dictionaries[language].languages.en}
+            </Text>
+          )}
+
+          {learnLanguages.includes("es") && (
+            <Text style={styles.languageHeader}>
+              {dictionaries[language].languages.es}
+            </Text>
+          )}
+        </View>
         {Object.keys(sort(dictionaries[language][category])).map((key) => (
           <View style={styles.row} key={key}>
             <Text style={styles.word}>
@@ -85,7 +106,17 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: "#fefefe",
     marginTop: 40,
-    marginBottom: 20,
+  },
+  languagesHeaderBox: {
+    flex: 1,
+    flexDirection: "row",
+    marginVertical: 10,
+  },
+  languageHeader: {
+    flex: 1,
+    fontSize: 18,
+    color: "#fefefe",
+    textAlign: "center",
   },
   row: {
     flex: 1,
@@ -94,9 +125,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 10,
     borderRadius: 5,
+    alignItems: "center",
   },
   word: {
-    padding: 10,
+    paddingHorizontal: 2,
     fontSize: 15,
     color: "#555555",
     width: 110,
@@ -105,8 +137,8 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+    padding: 10,
     backgroundColor: "#0f6f89",
-    justifyContent: "center",
     borderRadius: 5,
     marginHorizontal: 5,
   },

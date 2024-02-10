@@ -11,13 +11,13 @@
       "learn": "Seleccione los idiomas que quieres aprender"
     },
     "names": {
-      "categories": "Categorías",
+      "categories": "Categorias",
       "flashcards": "Flashcards",
       "settings": "Ajustes"
     }
   },
   "categories": {
-    "adjectives": { "name": "Adjetivos", "icon": "adjectives" },
+    "adjectives": { "name": "Adjetivos", "icon": "smile" },
     "animals": { "name": "Animales", "icon": "dog" },
     "body": { "name": "Cuerpo", "icon": "male" },
     "clothes": { "name": "Ropa", "icon": "tshirt" },

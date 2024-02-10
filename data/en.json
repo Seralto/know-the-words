@@ -17,7 +17,7 @@
     }
   },
   "categories": {
-    "adjectives": { "name": "Adjectives", "icon": "adjectives" },
+    "adjectives": { "name": "Adjectives", "icon": "smile" },
     "animals": { "name": "Animals", "icon": "dog" },
     "body": { "name": "Body", "icon": "male" },
     "clothes": { "name": "Clothes", "icon": "tshirt" },

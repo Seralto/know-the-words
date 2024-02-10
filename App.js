@@ -119,6 +119,6 @@ const styles = StyleSheet.create({
   pages: {
     flex: 1,
     marginTop: 20,
-    marginBottom: 100,
+    marginBottom: 76,
   },
 });
