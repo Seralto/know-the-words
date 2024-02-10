@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Categories from "./components/Categories";
-import BottomBar from "./components/BottomBar";
+import BottomMenu from "./components/BottomMenu";
 import Flashcards from "./components/Flashcards";
 import Settings from "./components/Settings";
 
@@ -102,7 +102,7 @@ export default function App() {
         )}
       </View>
 
-      <BottomBar
+      <BottomMenu
         language={language}
         dictionaries={dictionaries}
         onPageChange={handlePageChange}

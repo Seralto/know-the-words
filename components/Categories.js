@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   categoryTile: {
-    width: 120,
+    width: 110,
     height: 120,
     borderRadius: 10,
     margin: 10,

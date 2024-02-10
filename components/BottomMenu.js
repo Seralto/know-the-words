@@ -1,9 +1,9 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
-const BottomBar = ({ language, dictionaries, onPageChange }) => {
+const BottomMenu = ({ language, dictionaries, onPageChange }) => {
   return (
-    <View style={styles.bottomBar}>
+    <View style={styles.bottomMenu}>
       <TouchableOpacity
         style={styles.option}
         onPress={() => onPageChange("categories")}
@@ -35,7 +35,7 @@ const BottomBar = ({ language, dictionaries, onPageChange }) => {
 };
 
 const styles = StyleSheet.create({
-  bottomBar: {
+  bottomMenu: {
     flexDirection: "row",
     height: 50,
     backgroundColor: "#ececec",
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomBar;
+export default BottomMenu;
