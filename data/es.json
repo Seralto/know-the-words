@@ -8,7 +8,8 @@
     "settings": {
       "title": "Configuración",
       "language": "Seleccione tu idioma",
-      "learn": "Seleccione los idiomas que quieres aprender"
+      "learn": "Seleccione los idiomas que quieres aprender",
+      "warning": "Seleccione al menos un idioma para aprender"
     },
     "names": {
       "categories": "Categorias",
@@ -294,7 +295,7 @@
     "television": "Televisión",
     "umbrella": "Paraguas",
     "wallet": "Cartera",
-    "watch": "Reloj"
+    "watch": "Reloj de Pulso"
   },
   "adjectives": {
     "active": "Activo",

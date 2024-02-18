@@ -9,15 +9,14 @@ import {
 
 import * as Speech from "expo-speech";
 
-const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
-  const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
-
-  console.log(currentLearnLanguage);
-
-  useEffect(() => {
-    setCurrentLearnLanguage(learnLanguages[0]);
-  }, []);
-
+const Flashcards = ({
+  language,
+  category,
+  dictionaries,
+  learnLanguages,
+  currentLearnLanguage,
+  onCurrentLearnLanguageChange,
+}) => {
   const speak = (text, language) => {
     Speech.speak(text, {
       language: language,
@@ -38,14 +37,14 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
     }, {});
   };
 
-  const changeLearnLanguage = (language) => {
-    setCurrentLearnLanguage(language);
+  const handleCurrentLearnLanguage = (language) => {
+    onCurrentLearnLanguageChange(language);
   };
 
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
-        {dictionaries[language].categories[category].name}
+        {dictionaries[currentLearnLanguage].categories[category].name}
       </Text>
 
       <ScrollView>
@@ -54,7 +53,7 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
             {learnLanguages.includes("pt") && (
               <TouchableOpacity
                 style={styles.languageHeader}
-                onPress={() => changeLearnLanguage("pt")}
+                onPress={() => handleCurrentLearnLanguage("pt")}
               >
                 <Text
                   style={
@@ -71,7 +70,7 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
             {learnLanguages.includes("en") && (
               <TouchableOpacity
                 style={styles.languageHeader}
-                onPress={() => changeLearnLanguage("en")}
+                onPress={() => handleCurrentLearnLanguage("en")}
               >
                 <Text
                   style={
@@ -88,7 +87,7 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
             {learnLanguages.includes("es") && (
               <TouchableOpacity
                 style={styles.languageHeader}
-                onPress={() => changeLearnLanguage("es")}
+                onPress={() => handleCurrentLearnLanguage("es")}
               >
                 <Text
                   style={
@@ -164,7 +163,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     color: "#fefefe",
     marginTop: 40,
     paddingBottom: 10,

@@ -24,10 +24,12 @@ export default function App() {
   const [category, setCategory] = useState(DEFAULT_CATEGORY);
   const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
   const [learnLanguages, setLearnLanguages] = useState([]);
+  const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
 
   useEffect(() => {
     getDefaultLanguage();
     getLearnLanguages();
+    getCurrentLearnLanguage();
   }, []);
 
   const getDefaultLanguage = () => {
@@ -45,13 +47,27 @@ export default function App() {
     });
   };
 
+  const getCurrentLearnLanguage = () => {
+    AsyncStorage.getItem("currentLearnLanguage").then((language) => {
+      if (language) {
+        setCurrentLearnLanguage(language || DEFAULT_CURRENT_LEARN_LANGUAGE);
+      } else {
+        setCurrentPage(SETTINGS_PAGE);
+      }
+    });
+  };
+
   const getStartPage = (langList) => {
     const page = langList.length === 0 ? SETTINGS_PAGE : DEFAULT_PAGE;
     setCurrentPage(page);
   };
 
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    if (learnLanguages.length === 0) {
+      setCurrentPage(SETTINGS_PAGE);
+    } else {
+      setCurrentPage(page);
+    }
   };
 
   const handleCategoryChange = (category) => {
@@ -65,9 +81,22 @@ export default function App() {
     setLearnLanguages([]);
   };
 
-  const handleLearnLanguageChange = (learnLanguages) => {
+  const handleLearnLanguagesChange = (learnLanguages) => {
     AsyncStorage.setItem("learnLanguages", learnLanguages.toString());
     setLearnLanguages(learnLanguages);
+
+    // Note: If the user removed the current learn language from the list, set the other as current language
+    if (!learnLanguages.includes(currentLearnLanguage)) {
+      setCurrentLearnLanguage(learnLanguages[0]);
+    }
+  };
+
+  const handleCurrentLearnLanguageChange = (currentLearnLanguage) => {
+    AsyncStorage.setItem(
+      "currentLearnLanguage",
+      currentLearnLanguage.toString()
+    );
+    setCurrentLearnLanguage(currentLearnLanguage);
   };
 
   return (
@@ -88,6 +117,8 @@ export default function App() {
             category={category}
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
+            currentLearnLanguage={currentLearnLanguage}
+            onCurrentLearnLanguageChange={handleCurrentLearnLanguageChange}
           />
         )}
 
@@ -97,7 +128,7 @@ export default function App() {
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
             onLanguageChange={handleLanguageChange}
-            onLearnLanguageChange={handleLearnLanguageChange}
+            onLearnLanguagesChange={handleLearnLanguagesChange}
           />
         )}
       </View>

@@ -7,7 +7,7 @@ const Settings = ({
   dictionaries,
   learnLanguages,
   onLanguageChange,
-  onLearnLanguageChange,
+  onLearnLanguagesChange,
 }) => {
   const languageOptions = dictionaries[language].languages;
 
@@ -15,11 +15,11 @@ const Settings = ({
     onLanguageChange(language);
   };
 
-  const handleLearnLanguageChange = (language) => {
+  const handleLearnLanguagesChange = (language) => {
     const updatedLearnLanguages = learnLanguages.includes(language)
       ? learnLanguages.filter((item) => item !== language)
       : [...learnLanguages, language];
-    onLearnLanguageChange(updatedLearnLanguages);
+    onLearnLanguagesChange(updatedLearnLanguages);
   };
 
   const renderLanguageRadiobutton = (languageOption) => {
@@ -29,6 +29,7 @@ const Settings = ({
           value={languageOption}
           status={language === languageOption ? "checked" : "unchecked"}
           onPress={() => handleLanguageChange(languageOption)}
+          color={"#0f6f89"}
         />
         <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
       </View>
@@ -42,8 +43,9 @@ const Settings = ({
           status={
             learnLanguages.includes(languageOption) ? "checked" : "unchecked"
           }
-          onPress={() => handleLearnLanguageChange(languageOption)}
+          onPress={() => handleLearnLanguagesChange(languageOption)}
           disabled={languageOption === language}
+          color={"#0f6f89"}
         />
         <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
       </View>
@@ -76,6 +78,12 @@ const Settings = ({
             languageOption !== language &&
             renderLanguageCheckbox(languageOption)
         )}
+
+        {learnLanguages.length === 0 && (
+          <Text style={styles.warning}>
+            {dictionaries[language].pages.settings.warning}
+          </Text>
+        )}
       </View>
     </View>
   );
@@ -87,7 +95,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     color: "#fefefe",
     marginTop: 40,
     marginBottom: 20,
@@ -97,10 +105,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#efefef",
     borderRadius: 8,
     paddingVertical: 15,
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
     marginBottom: 8,
     color: "#555555",
@@ -114,6 +122,11 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 16,
     color: "#333333",
+  },
+  warning: {
+    marginTop: 8,
+    fontSize: 16,
+    color: "#f81717",
   },
 });
 

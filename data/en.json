@@ -8,7 +8,8 @@
     "settings": {
       "title": "Settings",
       "language": "Select your language",
-      "learn": "Select the languages you want to learn"
+      "learn": "Select the languages you want to learn",
+      "warning": "Select at least one language to learn"
     },
     "names": {
       "categories": "Categories",

@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ececec",
     justifyContent: "space-around",
     flexDirection: "row",
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingVertical: 12,
   },
   optionText: {
     fontSize: 16,
