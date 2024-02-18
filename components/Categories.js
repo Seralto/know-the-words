@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: "#fefefe",
     marginTop: 40,
-    marginBottom: 20,
+    paddingBottom: 10,
   },
   categoriesContainer: {
     justifyContent: "space-evenly",

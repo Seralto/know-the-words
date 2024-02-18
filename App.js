@@ -26,10 +26,8 @@ export default function App() {
   const [learnLanguages, setLearnLanguages] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      getDefaultLanguage();
-      getLearnLanguages();
-    }, 500);
+    getDefaultLanguage();
+    getLearnLanguages();
   }, []);
 
   const getDefaultLanguage = () => {

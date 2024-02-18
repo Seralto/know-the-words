@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -10,6 +10,14 @@ import {
 import * as Speech from "expo-speech";
 
 const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
+  const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
+
+  console.log(currentLearnLanguage);
+
+  useEffect(() => {
+    setCurrentLearnLanguage(learnLanguages[0]);
+  }, []);
+
   const speak = (text, language) => {
     Speech.speak(text, {
       language: language,
@@ -30,6 +38,10 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
     }, {});
   };
 
+  const changeLearnLanguage = (language) => {
+    setCurrentLearnLanguage(language);
+  };
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
@@ -37,67 +49,111 @@ const Flashcards = ({ language, category, dictionaries, learnLanguages }) => {
       </Text>
 
       <ScrollView>
-        <View style={styles.languagesHeaderBox}>
-          <Text style={styles.word}>&nbsp;</Text>
-
-          {learnLanguages.includes("pt") && (
-            <Text style={styles.languageHeader}>
-              {dictionaries[language].languages.pt}
-            </Text>
-          )}
-
-          {learnLanguages.includes("en") && (
-            <Text style={styles.languageHeader}>
-              {dictionaries[language].languages.en}
-            </Text>
-          )}
-
-          {learnLanguages.includes("es") && (
-            <Text style={styles.languageHeader}>
-              {dictionaries[language].languages.es}
-            </Text>
-          )}
-        </View>
-        {Object.keys(sort(dictionaries[language][category])).map((key) => (
-          <View style={styles.row} key={key}>
-            <Text style={styles.word}>
-              {dictionaries[language][category][key]}
-            </Text>
-
+        {learnLanguages.length > 1 && (
+          <View style={styles.languagesHeaderBox}>
             {learnLanguages.includes("pt") && (
               <TouchableOpacity
-                style={styles.button}
-                onPress={() => speak(dictionaries.pt[category][key], "pt-BR")}
+                style={styles.languageHeader}
+                onPress={() => changeLearnLanguage("pt")}
               >
-                <Text style={styles.buttonText}>
-                  {dictionaries.pt[category][key]}
+                <Text
+                  style={
+                    currentLearnLanguage === "pt"
+                      ? styles.languageHeaderText
+                      : styles.languageHeaderTextDisabled
+                  }
+                >
+                  {dictionaries[language].languages.pt}
                 </Text>
               </TouchableOpacity>
             )}
 
             {learnLanguages.includes("en") && (
               <TouchableOpacity
-                style={styles.button}
-                onPress={() => speak(dictionaries.en[category][key], "en-US")}
+                style={styles.languageHeader}
+                onPress={() => changeLearnLanguage("en")}
               >
-                <Text style={styles.buttonText}>
-                  {dictionaries.en[category][key]}
+                <Text
+                  style={
+                    currentLearnLanguage === "en"
+                      ? styles.languageHeaderText
+                      : styles.languageHeaderTextDisabled
+                  }
+                >
+                  {dictionaries[language].languages.en}
                 </Text>
               </TouchableOpacity>
             )}
 
             {learnLanguages.includes("es") && (
               <TouchableOpacity
-                style={styles.button}
-                onPress={() => speak(dictionaries.es[category][key], "es-ES")}
+                style={styles.languageHeader}
+                onPress={() => changeLearnLanguage("es")}
               >
-                <Text style={styles.buttonText}>
-                  {dictionaries.es[category][key]}
+                <Text
+                  style={
+                    currentLearnLanguage === "es"
+                      ? styles.languageHeaderText
+                      : styles.languageHeaderTextDisabled
+                  }
+                >
+                  {dictionaries[language].languages.es}
                 </Text>
               </TouchableOpacity>
             )}
           </View>
-        ))}
+        )}
+
+        {currentLearnLanguage && (
+          <View style={styles.words}>
+            {Object.keys(sort(dictionaries[language][category])).map((key) => (
+              <View style={styles.row} key={key}>
+                <Text style={styles.word}>
+                  {dictionaries[language][category][key]}
+                </Text>
+
+                {currentLearnLanguage === "pt" && (
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() =>
+                      speak(dictionaries.pt[category][key], "pt-BR")
+                    }
+                  >
+                    <Text style={styles.buttonText}>
+                      {dictionaries.pt[category][key]}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
+                {currentLearnLanguage === "en" && (
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() =>
+                      speak(dictionaries.en[category][key], "en-US")
+                    }
+                  >
+                    <Text style={styles.buttonText}>
+                      {dictionaries.en[category][key]}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
+                {currentLearnLanguage === "es" && (
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() =>
+                      speak(dictionaries.es[category][key], "es-ES")
+                    }
+                  >
+                    <Text style={styles.buttonText}>
+                      {dictionaries.es[category][key]}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ))}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
@@ -111,36 +167,54 @@ const styles = StyleSheet.create({
     fontSize: 26,
     color: "#fefefe",
     marginTop: 40,
+    paddingBottom: 10,
   },
   languagesHeaderBox: {
-    flex: 1,
     flexDirection: "row",
-    marginVertical: 10,
+    marginLeft: "auto",
   },
   languageHeader: {
-    flex: 1,
-    fontSize: 18,
+    paddingLeft: 10,
+  },
+  languageHeaderText: {
+    fontSize: 16,
     color: "#fefefe",
-    textAlign: "center",
+    backgroundColor: "#0f6f89",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  languageHeaderTextDisabled: {
+    fontSize: 16,
+    color: "#fefefe",
+    backgroundColor: "#0f6f89",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    opacity: 0.2,
+  },
+  words: {
+    marginTop: 10,
   },
   row: {
-    flex: 1,
     backgroundColor: "#ececec",
     padding: 10,
     flexDirection: "row",
     marginBottom: 10,
     borderRadius: 5,
     alignItems: "center",
+    justifyContent: "space-between",
   },
   word: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
     paddingHorizontal: 2,
     fontSize: 15,
     color: "#555555",
-    width: 110,
-    flexShrink: 0,
-    flexGrow: 0,
   },
   button: {
+    flexGrow: 1,
     flex: 1,
     padding: 10,
     backgroundColor: "#0f6f89",

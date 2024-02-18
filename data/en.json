@@ -49,7 +49,7 @@
       "icon": "frog"
     },
     "sea_animals": { "name": "Sea Animals", "icon": "fish" },
-    "science": { "name": "Science", "icon": "atom" },
+    "science": { "name": "Science", "icon": "flask" },
     "spiritual": { "name": "Spiritual", "icon": "ghost" },
     "sports": { "name": "Sports", "icon": "volleyball-ball" },
     "tools": { "name": "Tools", "icon": "hammer" },
@@ -962,7 +962,6 @@
     "pumpkin": "Pumpkin",
     "radish": "Radish",
     "spinach": "Spinach",
-    "squash": "Squash",
     "sweet_potato": "Sweet Potato",
     "tomato": "Tomato",
     "turnip": "Turnip",
