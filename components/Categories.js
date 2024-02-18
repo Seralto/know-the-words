@@ -14,6 +14,7 @@ const CategoriesPage = ({
   language,
   dictionaries,
   categories,
+  currentCategory,
   onCategoryChange,
 }) => {
   const handleCategoryPress = (category) => {
@@ -39,7 +40,11 @@ const CategoriesPage = ({
           {Object.keys(sort(categories)).map((category, index) => (
             <TouchableOpacity
               key={index}
-              style={styles.categoryTile}
+              style={
+                currentCategory === category
+                  ? styles.currentCategoryTile
+                  : styles.categoryTile
+              }
               onPress={() => handleCategoryPress(category)}
             >
               <FontAwesome5
@@ -84,6 +89,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     backgroundColor: "#0f8987",
+  },
+  currentCategoryTile: {
+    width: 110,
+    height: 120,
+    borderRadius: 10,
+    margin: 10,
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    backgroundColor: "#16bebb",
+    borderColor: "#fff",
+    borderWidth: 2,
   },
   categoryTitle: {
     fontSize: 16,

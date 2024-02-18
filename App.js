@@ -108,6 +108,7 @@ export default function App() {
             categories={dictionaries[language]["categories"]}
             dictionaries={dictionaries}
             onCategoryChange={handleCategoryChange}
+            currentCategory={category}
           />
         )}
 
