@@ -10,16 +10,16 @@ import {
 import * as Speech from "expo-speech";
 
 const Flashcards = ({
-  language,
+  userLanguage,
   category,
   dictionaries,
   learnLanguages,
   currentLearnLanguage,
   onCurrentLearnLanguageChange,
 }) => {
-  const speak = (text, language) => {
+  const speak = (text, userLanguage) => {
     Speech.speak(text, {
-      language: language,
+      language: userLanguage,
     });
   };
 
@@ -62,7 +62,7 @@ const Flashcards = ({
                       : styles.languageHeaderTextDisabled
                   }
                 >
-                  {dictionaries[language].languages.pt}
+                  {dictionaries[userLanguage].languages.pt}
                 </Text>
               </TouchableOpacity>
             )}
@@ -79,7 +79,7 @@ const Flashcards = ({
                       : styles.languageHeaderTextDisabled
                   }
                 >
-                  {dictionaries[language].languages.en}
+                  {dictionaries[userLanguage].languages.en}
                 </Text>
               </TouchableOpacity>
             )}
@@ -96,7 +96,7 @@ const Flashcards = ({
                       : styles.languageHeaderTextDisabled
                   }
                 >
-                  {dictionaries[language].languages.es}
+                  {dictionaries[userLanguage].languages.es}
                 </Text>
               </TouchableOpacity>
             )}
@@ -105,52 +105,54 @@ const Flashcards = ({
 
         {currentLearnLanguage && (
           <View style={styles.words}>
-            {Object.keys(sort(dictionaries[language][category])).map((key) => (
-              <View style={styles.row} key={key}>
-                <Text style={styles.word}>
-                  {dictionaries[language][category][key]}
-                </Text>
+            {Object.keys(sort(dictionaries[userLanguage][category])).map(
+              (key) => (
+                <View style={styles.row} key={key}>
+                  <Text style={styles.word}>
+                    {dictionaries[userLanguage][category][key]}
+                  </Text>
 
-                {currentLearnLanguage === "pt" && (
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() =>
-                      speak(dictionaries.pt[category][key], "pt-BR")
-                    }
-                  >
-                    <Text style={styles.buttonText}>
-                      {dictionaries.pt[category][key]}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                  {currentLearnLanguage === "pt" && (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        speak(dictionaries.pt[category][key], "pt-BR")
+                      }
+                    >
+                      <Text style={styles.buttonText}>
+                        {dictionaries.pt[category][key]}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
 
-                {currentLearnLanguage === "en" && (
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() =>
-                      speak(dictionaries.en[category][key], "en-US")
-                    }
-                  >
-                    <Text style={styles.buttonText}>
-                      {dictionaries.en[category][key]}
-                    </Text>
-                  </TouchableOpacity>
-                )}
+                  {currentLearnLanguage === "en" && (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        speak(dictionaries.en[category][key], "en-US")
+                      }
+                    >
+                      <Text style={styles.buttonText}>
+                        {dictionaries.en[category][key]}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
 
-                {currentLearnLanguage === "es" && (
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() =>
-                      speak(dictionaries.es[category][key], "es-ES")
-                    }
-                  >
-                    <Text style={styles.buttonText}>
-                      {dictionaries.es[category][key]}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-            ))}
+                  {currentLearnLanguage === "es" && (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() =>
+                        speak(dictionaries.es[category][key], "es-ES")
+                      }
+                    >
+                      <Text style={styles.buttonText}>
+                        {dictionaries.es[category][key]}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )
+            )}
           </View>
         )}
       </ScrollView>

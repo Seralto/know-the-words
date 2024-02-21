@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Categories from "./components/Categories";
@@ -10,7 +10,7 @@ import Settings from "./components/Settings";
 const SETTINGS_PAGE = "settings";
 const FLASHCARDS_PAGE = "flashcards";
 const DEFAULT_PAGE = "categories";
-const DEFAULT_CATEGORY = "body";
+const DEFAULT_CATEGORY = "adjectives";
 const DEFAULT_LANGUAGE = "en";
 
 const dictionaries = {
@@ -20,46 +20,67 @@ const dictionaries = {
 };
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
   const [category, setCategory] = useState(DEFAULT_CATEGORY);
-  const [language, setLanguage] = useState(DEFAULT_LANGUAGE);
+  const [userLanguage, setUserLanguage] = useState(DEFAULT_LANGUAGE);
   const [learnLanguages, setLearnLanguages] = useState([]);
   const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
 
+  const loadDefaultData = () => {
+    setUserLanguage(DEFAULT_LANGUAGE);
+    setLearnLanguages(["pt", "es"]);
+    setCurrentLearnLanguage("pt");
+  };
+
+  const fetchData = async () => {
+    try {
+      const keys = [
+        "@KnowTheWords:userLanguage",
+        "@KnowTheWords:learnLanguages",
+        "@KnowTheWords:currentLearnLanguage",
+      ];
+
+      const dataPromises = keys.map((key) => AsyncStorage.getItem(key));
+      const results = await Promise.all(dataPromises);
+
+      const userLanguage = results[0];
+      const learnLanguages = results[1];
+      const currentLearnLanguage = results[2];
+
+      setUserLanguage(userLanguage || DEFAULT_LANGUAGE);
+
+      if (learnLanguages === null) {
+        setCurrentPage(SETTINGS_PAGE);
+      } else {
+        setLearnLanguages(learnLanguages.split(","));
+      }
+
+      if (currentLearnLanguage === null && learnLanguages !== null) {
+        setCurrentLearnLanguage(learnLanguages.split(",")[0]);
+      } else {
+        setCurrentLearnLanguage(currentLearnLanguage);
+      }
+    } catch (error) {
+      loadDefaultData();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    getDefaultLanguage();
-    getLearnLanguages();
-    getCurrentLearnLanguage();
+    fetchData();
   }, []);
 
-  const getDefaultLanguage = () => {
-    AsyncStorage.getItem("defaultLanguage").then((language) => {
-      setLanguage(language || DEFAULT_LANGUAGE);
-    });
-  };
+  if (isLoading) {
+    return <ActivityIndicator size="large" />;
+  }
 
-  const getLearnLanguages = () => {
-    AsyncStorage.getItem("learnLanguages").then((storedLanguages) => {
-      const langList =
-        storedLanguages !== null ? storedLanguages.split(",") : [];
-      setLearnLanguages(langList);
-      getStartPage(langList);
-    });
-  };
-
-  const getCurrentLearnLanguage = () => {
-    AsyncStorage.getItem("currentLearnLanguage").then((language) => {
-      if (language) {
-        setCurrentLearnLanguage(language || DEFAULT_CURRENT_LEARN_LANGUAGE);
-      } else {
-        setCurrentPage(SETTINGS_PAGE);
-      }
-    });
-  };
-
-  const getStartPage = (langList) => {
-    const page = langList.length === 0 ? SETTINGS_PAGE : DEFAULT_PAGE;
-    setCurrentPage(page);
+  const resetLearningLanguages = () => {
+    AsyncStorage.setItem("@KnowTheWords:learnLanguages", "");
+    AsyncStorage.setItem("@KnowTheWords:currentLearnLanguage", "");
+    setLearnLanguages([]);
+    setCurrentLearnLanguage("");
   };
 
   const handlePageChange = (page) => {
@@ -75,17 +96,21 @@ export default function App() {
     setCurrentPage(FLASHCARDS_PAGE);
   };
 
-  const handleLanguageChange = (language) => {
-    AsyncStorage.setItem("defaultLanguage", language);
-    setLanguage(language);
-    setLearnLanguages([]);
+  const handleUserLanguageChange = (language) => {
+    AsyncStorage.setItem("@KnowTheWords:userLanguage", language);
+    setUserLanguage(language);
+    resetLearningLanguages();
   };
 
   const handleLearnLanguagesChange = (learnLanguages) => {
-    AsyncStorage.setItem("learnLanguages", learnLanguages.toString());
+    AsyncStorage.setItem(
+      "@KnowTheWords:learnLanguages",
+      learnLanguages.toString()
+    );
     setLearnLanguages(learnLanguages);
 
-    // Note: If the user removed the current learn language from the list, set the other as current language
+    // Note: If the user removed the current learn language from the list,
+    //       set the other as current language
     if (!learnLanguages.includes(currentLearnLanguage)) {
       setCurrentLearnLanguage(learnLanguages[0]);
     }
@@ -93,8 +118,8 @@ export default function App() {
 
   const handleCurrentLearnLanguageChange = (currentLearnLanguage) => {
     AsyncStorage.setItem(
-      "currentLearnLanguage",
-      currentLearnLanguage.toString()
+      "@KnowTheWords:currentLearnLanguage",
+      currentLearnLanguage
     );
     setCurrentLearnLanguage(currentLearnLanguage);
   };
@@ -104,8 +129,8 @@ export default function App() {
       <View style={styles.pages}>
         {currentPage === "categories" && (
           <Categories
-            language={language}
-            categories={dictionaries[language]["categories"]}
+            userLanguage={userLanguage}
+            categories={dictionaries[userLanguage]["categories"]}
             dictionaries={dictionaries}
             onCategoryChange={handleCategoryChange}
             currentCategory={category}
@@ -114,7 +139,7 @@ export default function App() {
 
         {currentPage === "flashcards" && (
           <Flashcards
-            language={language}
+            userLanguage={userLanguage}
             category={category}
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
@@ -125,17 +150,17 @@ export default function App() {
 
         {currentPage === "settings" && (
           <Settings
-            language={language}
+            userLanguage={userLanguage}
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
-            onLanguageChange={handleLanguageChange}
+            onUserLanguageChange={handleUserLanguageChange}
             onLearnLanguagesChange={handleLearnLanguagesChange}
           />
         )}
       </View>
 
       <BottomMenu
-        language={language}
+        userLanguage={userLanguage}
         dictionaries={dictionaries}
         onPageChange={handlePageChange}
       />

@@ -3,16 +3,16 @@ import { View, Text, StyleSheet } from "react-native";
 import { RadioButton, Checkbox } from "react-native-paper";
 
 const Settings = ({
-  language,
+  userLanguage,
   dictionaries,
   learnLanguages,
-  onLanguageChange,
+  onUserLanguageChange,
   onLearnLanguagesChange,
 }) => {
-  const languageOptions = dictionaries[language].languages;
+  const languageOptions = dictionaries[userLanguage].languages;
 
   const handleLanguageChange = (language) => {
-    onLanguageChange(language);
+    onUserLanguageChange(language);
   };
 
   const handleLearnLanguagesChange = (language) => {
@@ -27,7 +27,7 @@ const Settings = ({
       <View key={languageOption} style={styles.option}>
         <RadioButton
           value={languageOption}
-          status={language === languageOption ? "checked" : "unchecked"}
+          status={userLanguage === languageOption ? "checked" : "unchecked"}
           onPress={() => handleLanguageChange(languageOption)}
           color={"#0f6f89"}
         />
@@ -44,7 +44,7 @@ const Settings = ({
             learnLanguages.includes(languageOption) ? "checked" : "unchecked"
           }
           onPress={() => handleLearnLanguagesChange(languageOption)}
-          disabled={languageOption === language}
+          disabled={languageOption === userLanguage}
           color={"#0f6f89"}
         />
         <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
@@ -55,12 +55,12 @@ const Settings = ({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        {dictionaries[language].pages.settings.title}
+        {dictionaries[userLanguage].pages.settings.title}
       </Text>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>
-          {dictionaries[language].pages.settings.language}
+          {dictionaries[userLanguage].pages.settings.language}
         </Text>
 
         {Object.keys(languageOptions).map((languageOption) =>
@@ -70,18 +70,18 @@ const Settings = ({
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>
-          {dictionaries[language].pages.settings.learn}
+          {dictionaries[userLanguage].pages.settings.learn}
         </Text>
 
         {Object.keys(languageOptions).map(
           (languageOption) =>
-            languageOption !== language &&
+            languageOption !== userLanguage &&
             renderLanguageCheckbox(languageOption)
         )}
 
         {learnLanguages.length === 0 && (
           <Text style={styles.warning}>
-            {dictionaries[language].pages.settings.warning}
+            {dictionaries[userLanguage].pages.settings.warning}
           </Text>
         )}
       </View>

@@ -11,7 +11,7 @@ import {
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const CategoriesPage = ({
-  language,
+  userLanguage,
   dictionaries,
   categories,
   currentCategory,
@@ -32,7 +32,7 @@ const CategoriesPage = ({
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
-        {dictionaries[language].pages.names.categories}
+        {dictionaries[userLanguage].pages.names.categories}
       </Text>
 
       <ScrollView>
