@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import {
   View,
   TouchableOpacity,
   Text,
   StyleSheet,
   ScrollView,
+  Dimensions,
 } from "react-native";
 
 // https://github.com/oblador/react-native-vector-icons/blob/master/glyphmaps/FontAwesome5Free.json
@@ -17,6 +18,27 @@ const CategoriesPage = ({
   currentCategory,
   onCategoryChange,
 }) => {
+  const scrollViewRef = useRef();
+  const targetViewRef = useRef();
+
+  useEffect(() => {
+    scrollToElement();
+  }, []);
+
+  const scrollToElement = () => {
+    if (targetViewRef.current) {
+      targetViewRef.current.measure((_x, _y, _width, height, _pageX, pageY) => {
+        const screenHeight = Dimensions.get("window").height;
+        const scrollY = pageY + height / 2 - screenHeight / 2;
+
+        scrollViewRef.current.scrollTo({
+          y: Math.max(0, scrollY),
+          animated: true,
+        });
+      });
+    }
+  };
+
   const handleCategoryPress = (category) => {
     onCategoryChange(category);
   };
@@ -35,11 +57,12 @@ const CategoriesPage = ({
         {dictionaries[userLanguage].pages.names.categories}
       </Text>
 
-      <ScrollView>
+      <ScrollView ref={scrollViewRef}>
         <View style={styles.categoriesContainer}>
           {Object.keys(sort(categories)).map((category, index) => (
             <TouchableOpacity
               key={index}
+              ref={currentCategory === category ? targetViewRef : null}
               style={
                 currentCategory === category
                   ? styles.currentCategoryTile

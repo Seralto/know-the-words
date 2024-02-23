@@ -57,13 +57,19 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     fontWeight: "bold",
     color: "#333333",
   },
   currentOptionText: {
     fontSize: 16,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
     fontWeight: "bold",
-    color: "#0f6f89",
+    color: "#efefef",
+    backgroundColor: "#425c70",
+    borderRadius: 10,
   },
 });
 

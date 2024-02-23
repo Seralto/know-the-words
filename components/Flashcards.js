@@ -11,7 +11,7 @@ import * as Speech from "expo-speech";
 
 const Flashcards = ({
   userLanguage,
-  category,
+  currentCategory,
   dictionaries,
   learnLanguages,
   currentLearnLanguage,
@@ -25,7 +25,7 @@ const Flashcards = ({
 
   const sort = (obj) => {
     // Don't sort the calendar category, it's grouped by topic
-    if (category === "calendar") {
+    if (currentCategory === "calendar") {
       return obj;
     }
 
@@ -44,7 +44,7 @@ const Flashcards = ({
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
-        {dictionaries[currentLearnLanguage].categories[category].name}
+        {dictionaries[currentLearnLanguage].categories[currentCategory].name}
       </Text>
 
       <ScrollView>
@@ -105,22 +105,22 @@ const Flashcards = ({
 
         {currentLearnLanguage && (
           <View style={styles.words}>
-            {Object.keys(sort(dictionaries[userLanguage][category])).map(
+            {Object.keys(sort(dictionaries[userLanguage][currentCategory])).map(
               (key) => (
                 <View style={styles.row} key={key}>
                   <Text style={styles.word}>
-                    {dictionaries[userLanguage][category][key]}
+                    {dictionaries[userLanguage][currentCategory][key]}
                   </Text>
 
                   {currentLearnLanguage === "pt" && (
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() =>
-                        speak(dictionaries.pt[category][key], "pt-BR")
+                        speak(dictionaries.pt[currentCategory][key], "pt-BR")
                       }
                     >
                       <Text style={styles.buttonText}>
-                        {dictionaries.pt[category][key]}
+                        {dictionaries.pt[currentCategory][key]}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -129,11 +129,11 @@ const Flashcards = ({
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() =>
-                        speak(dictionaries.en[category][key], "en-US")
+                        speak(dictionaries.en[currentCategory][key], "en-US")
                       }
                     >
                       <Text style={styles.buttonText}>
-                        {dictionaries.en[category][key]}
+                        {dictionaries.en[currentCategory][key]}
                       </Text>
                     </TouchableOpacity>
                   )}
@@ -142,11 +142,11 @@ const Flashcards = ({
                     <TouchableOpacity
                       style={styles.button}
                       onPress={() =>
-                        speak(dictionaries.es[category][key], "es-ES")
+                        speak(dictionaries.es[currentCategory][key], "es-ES")
                       }
                     >
                       <Text style={styles.buttonText}>
-                        {dictionaries.es[category][key]}
+                        {dictionaries.es[currentCategory][key]}
                       </Text>
                     </TouchableOpacity>
                   )}

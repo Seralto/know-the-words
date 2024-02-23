@@ -22,7 +22,7 @@ const dictionaries = {
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
-  const [category, setCategory] = useState(DEFAULT_CATEGORY);
+  const [currentCategory, setCurrentCategory] = useState(DEFAULT_CATEGORY);
   const [userLanguage, setUserLanguage] = useState(DEFAULT_LANGUAGE);
   const [learnLanguages, setLearnLanguages] = useState([]);
   const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
@@ -39,6 +39,7 @@ export default function App() {
         "@KnowTheWords:userLanguage",
         "@KnowTheWords:learnLanguages",
         "@KnowTheWords:currentLearnLanguage",
+        "@KnowTheWords:currentCategory",
       ];
 
       const dataPromises = keys.map((key) => AsyncStorage.getItem(key));
@@ -47,6 +48,7 @@ export default function App() {
       const userLanguage = results[0];
       const learnLanguages = results[1];
       const currentLearnLanguage = results[2];
+      const currentCategory = results[3];
 
       setUserLanguage(userLanguage || DEFAULT_LANGUAGE);
 
@@ -61,6 +63,8 @@ export default function App() {
       } else {
         setCurrentLearnLanguage(currentLearnLanguage);
       }
+
+      setCurrentCategory(currentCategory || DEFAULT_CATEGORY);
     } catch (error) {
       loadDefaultData();
     } finally {
@@ -92,7 +96,8 @@ export default function App() {
   };
 
   const handleCategoryChange = (category) => {
-    setCategory(category);
+    AsyncStorage.setItem("@KnowTheWords:currentCategory", category);
+    setCurrentCategory(category);
     setCurrentPage(FLASHCARDS_PAGE);
   };
 
@@ -133,14 +138,14 @@ export default function App() {
             categories={dictionaries[userLanguage]["categories"]}
             dictionaries={dictionaries}
             onCategoryChange={handleCategoryChange}
-            currentCategory={category}
+            currentCategory={currentCategory}
           />
         )}
 
         {currentPage === "flashcards" && (
           <Flashcards
             userLanguage={userLanguage}
-            category={category}
+            currentCategory={currentCategory}
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
             currentLearnLanguage={currentLearnLanguage}
