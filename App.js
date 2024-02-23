@@ -163,6 +163,7 @@ export default function App() {
         userLanguage={userLanguage}
         dictionaries={dictionaries}
         onPageChange={handlePageChange}
+        currentPage={currentPage}
       />
     </View>
   );

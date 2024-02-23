@@ -1,23 +1,46 @@
 import React from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
-const BottomMenu = ({ userLanguage, dictionaries, onPageChange }) => {
+const BottomMenu = ({
+  userLanguage,
+  dictionaries,
+  onPageChange,
+  currentPage,
+}) => {
   return (
     <View style={styles.bottomMenu}>
       <TouchableOpacity onPress={() => onPageChange("categories")}>
-        <Text style={styles.optionText}>
+        <Text
+          style={
+            currentPage === "categories"
+              ? styles.currentOptionText
+              : styles.optionText
+          }
+        >
           {dictionaries[userLanguage].pages.names.categories}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => onPageChange("flashcards")}>
-        <Text style={styles.optionText}>
+        <Text
+          style={
+            currentPage === "flashcards"
+              ? styles.currentOptionText
+              : styles.optionText
+          }
+        >
           {dictionaries[userLanguage].pages.names.flashcards}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => onPageChange("settings")}>
-        <Text style={styles.optionText}>
+        <Text
+          style={
+            currentPage === "settings"
+              ? styles.currentOptionText
+              : styles.optionText
+          }
+        >
           {dictionaries[userLanguage].pages.names.settings}
         </Text>
       </TouchableOpacity>
@@ -36,6 +59,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#333333",
+  },
+  currentOptionText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#0f6f89",
   },
 });
 
