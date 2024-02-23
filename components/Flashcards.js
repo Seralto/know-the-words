@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     opacity: 0.2,
   },
   words: {
-    marginTop: 10,
+    marginVertical: 10,
   },
   row: {
     backgroundColor: "#ececec",

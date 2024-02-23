@@ -53,7 +53,7 @@ const Settings = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.page}>
       <Text style={styles.title}>
         {dictionaries[userLanguage].pages.settings.title}
       </Text>
@@ -90,9 +90,8 @@ const Settings = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
+  page: {
+    paddingHorizontal: 15,
   },
   title: {
     fontSize: 24,
