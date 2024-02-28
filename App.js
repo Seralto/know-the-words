@@ -68,7 +68,7 @@ export default function App() {
     } catch (error) {
       loadDefaultData();
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 1000);
     }
   };
 

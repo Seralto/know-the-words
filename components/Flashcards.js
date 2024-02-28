@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   TouchableOpacity,
@@ -17,15 +17,25 @@ const Flashcards = ({
   currentLearnLanguage,
   onCurrentLearnLanguageChange,
 }) => {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const UNSORTED_CATEGORIES = ["calendar", "pronouns", "numbers"];
   const speak = (text, userLanguage) => {
-    Speech.speak(text, {
-      language: userLanguage,
-    });
+    if (!isButtonDisabled) {
+      Speech.speak(text, {
+        language: userLanguage,
+      });
+
+      setIsButtonDisabled(true);
+
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 600);
+    }
   };
 
   const sort = (obj) => {
-    // Don't sort the calendar category, it's grouped by topic
-    if (currentCategory === "calendar") {
+    if (UNSORTED_CATEGORIES.includes(currentCategory)) {
       return obj;
     }
 
@@ -128,6 +138,7 @@ const Flashcards = ({
                   {currentLearnLanguage === "en" && (
                     <TouchableOpacity
                       style={styles.button}
+                      disabled={isButtonDisabled}
                       onPress={() =>
                         speak(dictionaries.en[currentCategory][key], "en-US")
                       }
