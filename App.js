@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Categories from "./components/Categories";
@@ -68,7 +68,7 @@ export default function App() {
     } catch (error) {
       loadDefaultData();
     } finally {
-      setTimeout(() => setIsLoading(false), 1000);
+      setIsLoading(false);
     }
   };
 
@@ -77,7 +77,14 @@ export default function App() {
   }, []);
 
   if (isLoading) {
-    return <ActivityIndicator size="large" />;
+    return (
+      <View style={styles.splash}>
+        <Image
+          source={require("./assets/splash.png")}
+          style={styles.splashImage}
+        />
+      </View>
+    );
   }
 
   const resetLearningLanguages = () => {
@@ -183,5 +190,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 20,
     marginBottom: 76,
+  },
+  splash: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#545771",
+  },
+  splashImage: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
   },
 });
