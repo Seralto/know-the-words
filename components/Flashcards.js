@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import * as Speech from "expo-speech";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
 const Flashcards = ({
   userLanguage,
@@ -16,6 +17,7 @@ const Flashcards = ({
   learnLanguages,
   currentLearnLanguage,
   onCurrentLearnLanguageChange,
+  onNextCategory,
 }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -51,67 +53,54 @@ const Flashcards = ({
     onCurrentLearnLanguageChange(language);
   };
 
+  const handleNavCategory = (direction) => {
+    onNextCategory(direction);
+  };
+
   return (
     <View style={styles.page}>
       <Text style={styles.title}>
-        {dictionaries[currentLearnLanguage].categories[currentCategory].name}
+        {dictionaries[userLanguage].categories[currentCategory].name}
       </Text>
 
       <ScrollView>
-        {learnLanguages.length > 1 && (
-          <View style={styles.languagesHeaderBox}>
-            {learnLanguages.includes("pt") && (
-              <TouchableOpacity
-                style={styles.languageHeader}
-                onPress={() => handleCurrentLearnLanguage("pt")}
-              >
-                <Text
-                  style={
-                    currentLearnLanguage === "pt"
-                      ? styles.languageHeaderText
-                      : styles.languageHeaderTextDisabled
-                  }
-                >
-                  {dictionaries[userLanguage].languages.pt}
-                </Text>
-              </TouchableOpacity>
-            )}
+        <View style={styles.headerControlsBox}>
+          <TouchableOpacity
+            style={styles.categoryNav}
+            onPress={() => handleNavCategory("prev")}
+          >
+            <FontAwesome5 name={"angle-left"} size={26} color="white" solid />
+          </TouchableOpacity>
 
-            {learnLanguages.includes("en") && (
-              <TouchableOpacity
-                style={styles.languageHeader}
-                onPress={() => handleCurrentLearnLanguage("en")}
-              >
-                <Text
-                  style={
-                    currentLearnLanguage === "en"
-                      ? styles.languageHeaderText
-                      : styles.languageHeaderTextDisabled
-                  }
-                >
-                  {dictionaries[userLanguage].languages.en}
-                </Text>
-              </TouchableOpacity>
-            )}
+          <TouchableOpacity
+            style={styles.categoryNav}
+            onPress={() => handleNavCategory("next")}
+          >
+            <FontAwesome5 name={"angle-right"} size={26} color="white" solid />
+          </TouchableOpacity>
 
-            {learnLanguages.includes("es") && (
-              <TouchableOpacity
-                style={styles.languageHeader}
-                onPress={() => handleCurrentLearnLanguage("es")}
-              >
-                <Text
-                  style={
-                    currentLearnLanguage === "es"
-                      ? styles.languageHeaderText
-                      : styles.languageHeaderTextDisabled
-                  }
+          {learnLanguages.length > 1 && (
+            <View style={styles.languagesHeaderBox}>
+              {learnLanguages.map((language) => (
+                <TouchableOpacity
+                  key={language}
+                  style={styles.languageHeader}
+                  onPress={() => handleCurrentLearnLanguage(language)}
                 >
-                  {dictionaries[userLanguage].languages.es}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        )}
+                  <Text
+                    style={
+                      currentLearnLanguage === language
+                        ? styles.languageHeaderText
+                        : styles.languageHeaderTextDisabled
+                    }
+                  >
+                    {dictionaries[userLanguage].languages[language]}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
 
         {currentLearnLanguage && (
           <View style={styles.words}>
@@ -181,9 +170,21 @@ const styles = StyleSheet.create({
     marginTop: 40,
     paddingBottom: 10,
   },
+  headerControlsBox: {
+    flexDirection: "row",
+  },
   languagesHeaderBox: {
     flexDirection: "row",
     marginLeft: "auto",
+  },
+  categoryNav: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0f8987",
+    paddingHorizontal: 18,
+    borderRadius: 5,
+    marginRight: 8,
   },
   languageHeader: {
     paddingLeft: 10,

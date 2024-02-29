@@ -136,6 +136,30 @@ export default function App() {
     setCurrentLearnLanguage(currentLearnLanguage);
   };
 
+  const sortedCategories = Object.fromEntries(
+    Object.entries(dictionaries[userLanguage]["categories"]).sort(
+      ([keyA, { name: nameA }], [keyB, { name: nameB }]) =>
+        nameA.localeCompare(nameB)
+    )
+  );
+
+  const handleNavCategory = (direction) => {
+    const categories = Object.keys(sortedCategories);
+    const currentIndex = categories.indexOf(currentCategory);
+
+    let nextIndex;
+    if (direction === "next") {
+      nextIndex = (currentIndex + 1) % categories.length;
+    } else if (direction === "prev") {
+      nextIndex = (currentIndex - 1 + categories.length) % categories.length;
+    }
+
+    const nextCategory = categories[nextIndex];
+
+    AsyncStorage.setItem("@KnowTheWords:currentCategory", nextCategory);
+    setCurrentCategory(nextCategory);
+  };
+
   return (
     <View style={styles.app}>
       <View style={styles.pages}>
@@ -157,6 +181,7 @@ export default function App() {
             learnLanguages={learnLanguages}
             currentLearnLanguage={currentLearnLanguage}
             onCurrentLearnLanguageChange={handleCurrentLearnLanguageChange}
+            onNextCategory={(direction) => handleNavCategory(direction)}
           />
         )}
 

@@ -45,7 +45,7 @@ const CategoriesPage = ({
 
   const sort = (categories) => {
     return Object.fromEntries(
-      Object.entries(categories).sort(([aKey, aValue], [bKey, bValue]) =>
+      Object.entries(categories).sort(([_aKey, aValue], [_bKey, bValue]) =>
         aValue.name.localeCompare(bValue.name)
       )
     );
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   categoriesContainer: {
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
     flexWrap: "wrap",
     flexDirection: "row",
     marginBottom: 30,
