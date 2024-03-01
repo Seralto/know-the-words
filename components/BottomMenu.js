@@ -6,16 +6,21 @@ const BottomMenu = ({
   dictionaries,
   onPageChange,
   currentPage,
+  screenWidth,
 }) => {
+  const fontSize = screenWidth < 400 ? 14 : 16;
+  const padding = screenWidth < 400 ? 8 : 10;
+
   return (
-    <View style={styles.bottomMenu}>
+    <View style={[styles.bottomMenu, { paddingVertical: padding }]}>
       <TouchableOpacity onPress={() => onPageChange("categories")}>
         <Text
-          style={
+          style={[
             currentPage === "categories"
               ? styles.currentOptionText
-              : styles.optionText
-          }
+              : styles.optionText,
+            { fontSize: fontSize },
+          ]}
         >
           {dictionaries[userLanguage].pages.names.categories}
         </Text>
@@ -23,11 +28,12 @@ const BottomMenu = ({
 
       <TouchableOpacity onPress={() => onPageChange("flashcards")}>
         <Text
-          style={
+          style={[
             currentPage === "flashcards"
               ? styles.currentOptionText
-              : styles.optionText
-          }
+              : styles.optionText,
+            { fontSize: fontSize },
+          ]}
         >
           {dictionaries[userLanguage].pages.names.flashcards}
         </Text>
@@ -35,11 +41,12 @@ const BottomMenu = ({
 
       <TouchableOpacity onPress={() => onPageChange("settings")}>
         <Text
-          style={
+          style={[
             currentPage === "settings"
               ? styles.currentOptionText
-              : styles.optionText
-          }
+              : styles.optionText,
+            { fontSize: fontSize },
+          ]}
         >
           {dictionaries[userLanguage].pages.names.settings}
         </Text>
@@ -53,17 +60,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ececec",
     justifyContent: "space-around",
     flexDirection: "row",
-    paddingVertical: 12,
   },
   optionText: {
-    fontSize: 16,
     paddingVertical: 6,
     paddingHorizontal: 12,
     fontWeight: "bold",
     color: "#333333",
   },
   currentOptionText: {
-    fontSize: 16,
     paddingVertical: 6,
     paddingHorizontal: 12,
     fontWeight: "bold",

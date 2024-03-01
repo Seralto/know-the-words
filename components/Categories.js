@@ -17,9 +17,14 @@ const CategoriesPage = ({
   categories,
   currentCategory,
   onCategoryChange,
+  screenWidth,
 }) => {
   const scrollViewRef = useRef();
   const targetViewRef = useRef();
+
+  const titleFontSize = screenWidth < 400 ? 20 : 24;
+  const fontSize = screenWidth < 400 ? 14 : 16;
+  const tileWidth = screenWidth < 400 ? 98 : 110;
 
   useEffect(() => {
     scrollToElement();
@@ -53,7 +58,7 @@ const CategoriesPage = ({
 
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>
+      <Text style={[styles.title, { fontSize: titleFontSize }]}>
         {dictionaries[userLanguage].pages.names.categories}
       </Text>
 
@@ -63,11 +68,12 @@ const CategoriesPage = ({
             <TouchableOpacity
               key={index}
               ref={currentCategory === category ? targetViewRef : null}
-              style={
+              style={[
                 currentCategory === category
                   ? styles.currentCategoryTile
-                  : styles.categoryTile
-              }
+                  : styles.categoryTile,
+                { width: tileWidth },
+              ]}
               onPress={() => handleCategoryPress(category)}
             >
               <FontAwesome5
@@ -77,7 +83,7 @@ const CategoriesPage = ({
                 solid
               />
 
-              <Text style={styles.categoryTitle}>
+              <Text style={[styles.categoryTitle, { fontSize: fontSize }]}>
                 {categories[category].name}
               </Text>
             </TouchableOpacity>
@@ -89,23 +95,20 @@ const CategoriesPage = ({
 };
 
 const styles = StyleSheet.create({
-  page: {
+  title: {
+    color: "#fefefe",
+    marginTop: 10,
+    paddingBottom: 10,
     paddingHorizontal: 15,
   },
-  title: {
-    fontSize: 24,
-    color: "#fefefe",
-    marginTop: 20,
-    paddingBottom: 10,
-  },
   categoriesContainer: {
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     flexWrap: "wrap",
     flexDirection: "row",
+    paddingBottom: 20,
   },
   categoryTile: {
-    width: 110,
-    height: 120,
+    height: 105,
     borderRadius: 10,
     margin: 10,
     justifyContent: "space-evenly",
@@ -113,8 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0f8987",
   },
   currentCategoryTile: {
-    width: 110,
-    height: 120,
+    height: 105,
     borderRadius: 10,
     margin: 10,
     justifyContent: "space-evenly",
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   categoryTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",

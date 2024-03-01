@@ -18,8 +18,13 @@ const Flashcards = ({
   currentLearnLanguage,
   onCurrentLearnLanguageChange,
   onNextCategory,
+  screenWidth,
 }) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const titleFontSize = screenWidth < 400 ? 20 : 24;
+  const fontSize = screenWidth < 400 ? 14 : 16;
+  const arrowFontSize = screenWidth < 400 ? 20 : 24;
 
   const UNSORTED_CATEGORIES = ["calendar", "pronouns", "numbers"];
   const speak = (text, userLanguage) => {
@@ -59,55 +64,66 @@ const Flashcards = ({
 
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>
+      <Text style={[styles.title, { fontSize: titleFontSize }]}>
         {dictionaries[userLanguage].categories[currentCategory].name}
       </Text>
 
       <ScrollView>
-        <View style={styles.headerControlsBox}>
-          <TouchableOpacity
-            style={styles.categoryNav}
-            onPress={() => handleNavCategory("prev")}
-          >
-            <FontAwesome5 name={"angle-left"} size={26} color="white" solid />
-          </TouchableOpacity>
+        <View style={styles.flashcardsContainer}>
+          <View style={styles.headerControlsBox}>
+            <TouchableOpacity
+              style={styles.categoryNav}
+              onPress={() => handleNavCategory("prev")}
+            >
+              <FontAwesome5
+                style={[styles.categoryNavButton, { fontSize: arrowFontSize }]}
+                name={"angle-left"}
+                solid
+              />
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.categoryNav}
-            onPress={() => handleNavCategory("next")}
-          >
-            <FontAwesome5 name={"angle-right"} size={26} color="white" solid />
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.categoryNav}
+              onPress={() => handleNavCategory("next")}
+            >
+              <FontAwesome5
+                style={[styles.categoryNavButton, { fontSize: arrowFontSize }]}
+                name={"angle-right"}
+                solid
+              />
+            </TouchableOpacity>
 
-          {learnLanguages.length > 1 && (
-            <View style={styles.languagesHeaderBox}>
-              {learnLanguages.map((language) => (
-                <TouchableOpacity
-                  key={language}
-                  style={styles.languageHeader}
-                  onPress={() => handleCurrentLearnLanguage(language)}
-                >
-                  <Text
-                    style={
-                      currentLearnLanguage === language
-                        ? styles.languageHeaderText
-                        : styles.languageHeaderTextDisabled
-                    }
+            {learnLanguages.length > 1 && (
+              <View style={styles.languagesHeaderBox}>
+                {learnLanguages.map((language) => (
+                  <TouchableOpacity
+                    key={language}
+                    style={styles.languageHeader}
+                    onPress={() => handleCurrentLearnLanguage(language)}
                   >
-                    {dictionaries[userLanguage].languages[language]}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
+                    <Text
+                      style={[
+                        currentLearnLanguage === language
+                          ? styles.languageHeaderText
+                          : styles.languageHeaderTextDisabled,
+                        { fontSize: fontSize },
+                      ]}
+                    >
+                      {dictionaries[userLanguage].languages[language]}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </View>
 
-        {currentLearnLanguage && (
-          <View style={styles.words}>
-            {Object.keys(sort(dictionaries[userLanguage][currentCategory])).map(
-              (key) => (
+          {currentLearnLanguage && (
+            <View style={styles.words}>
+              {Object.keys(
+                sort(dictionaries[userLanguage][currentCategory])
+              ).map((key) => (
                 <View style={styles.row} key={key}>
-                  <Text style={styles.word}>
+                  <Text style={[styles.word, { fontSize: fontSize }]}>
                     {dictionaries[userLanguage][currentCategory][key]}
                   </Text>
 
@@ -132,7 +148,7 @@ const Flashcards = ({
                         speak(dictionaries.en[currentCategory][key], "en-US")
                       }
                     >
-                      <Text style={styles.buttonText}>
+                      <Text style={[styles.buttonText, { fontSize: fontSize }]}>
                         {dictionaries.en[currentCategory][key]}
                       </Text>
                     </TouchableOpacity>
@@ -151,10 +167,10 @@ const Flashcards = ({
                     </TouchableOpacity>
                   )}
                 </View>
-              )
-            )}
-          </View>
-        )}
+              ))}
+            </View>
+          )}
+        </View>
       </ScrollView>
     </View>
   );
@@ -165,10 +181,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   title: {
-    fontSize: 24,
     color: "#fefefe",
-    marginTop: 20,
+    marginTop: 10,
     paddingBottom: 10,
+  },
+  flashcardsContainer: {
+    paddingBottom: 5,
   },
   headerControlsBox: {
     flexDirection: "row",
@@ -186,11 +204,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginRight: 8,
   },
+  categoryNavButton: {
+    color: "#fefefe",
+  },
   languageHeader: {
     paddingLeft: 10,
   },
   languageHeaderText: {
-    fontSize: 16,
     color: "#fefefe",
     backgroundColor: "#0f6f89",
     paddingVertical: 5,
@@ -198,7 +218,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   languageHeaderTextDisabled: {
-    fontSize: 16,
     color: "#fefefe",
     backgroundColor: "#0f6f89",
     paddingVertical: 5,
@@ -211,7 +230,8 @@ const styles = StyleSheet.create({
   },
   row: {
     backgroundColor: "#ececec",
-    padding: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     flexDirection: "row",
     marginBottom: 10,
     borderRadius: 5,
@@ -223,19 +243,18 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     flexBasis: 0,
     paddingHorizontal: 2,
-    fontSize: 15,
     color: "#555555",
   },
   button: {
     flexGrow: 1,
     flex: 1,
-    padding: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
     backgroundColor: "#0f6f89",
     borderRadius: 5,
     marginHorizontal: 5,
   },
   buttonText: {
-    fontSize: 15,
     color: "#ffffff",
     textAlign: "center",
   },

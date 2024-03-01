@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image, Dimensions } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import Categories from "./components/Categories";
@@ -26,6 +26,8 @@ export default function App() {
   const [userLanguage, setUserLanguage] = useState(DEFAULT_LANGUAGE);
   const [learnLanguages, setLearnLanguages] = useState([]);
   const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
+
+  const screenWidth = Dimensions.get("window").width;
 
   const loadDefaultData = () => {
     setUserLanguage(DEFAULT_LANGUAGE);
@@ -75,7 +77,7 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => {
       fetchData();
-    }, 1000);
+    }, 500);
   }, []);
 
   if (isLoading) {
@@ -172,6 +174,7 @@ export default function App() {
             dictionaries={dictionaries}
             onCategoryChange={handleCategoryChange}
             currentCategory={currentCategory}
+            screenWidth={screenWidth}
           />
         )}
 
@@ -184,6 +187,7 @@ export default function App() {
             currentLearnLanguage={currentLearnLanguage}
             onCurrentLearnLanguageChange={handleCurrentLearnLanguageChange}
             onNextCategory={(direction) => handleNavCategory(direction)}
+            screenWidth={screenWidth}
           />
         )}
 
@@ -194,6 +198,7 @@ export default function App() {
             learnLanguages={learnLanguages}
             onUserLanguageChange={handleUserLanguageChange}
             onLearnLanguagesChange={handleLearnLanguagesChange}
+            screenWidth={screenWidth}
           />
         )}
       </View>
@@ -203,6 +208,7 @@ export default function App() {
         dictionaries={dictionaries}
         onPageChange={handlePageChange}
         currentPage={currentPage}
+        screenWidth={screenWidth}
       />
     </View>
   );
@@ -215,7 +221,7 @@ const styles = StyleSheet.create({
   },
   pages: {
     flex: 1,
-    marginBottom: 70,
+    marginBottom: 40,
   },
   splash: {
     flex: 1,

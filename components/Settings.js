@@ -8,8 +8,13 @@ const Settings = ({
   learnLanguages,
   onUserLanguageChange,
   onLearnLanguagesChange,
+  screenWidth,
 }) => {
   const languageOptions = dictionaries[userLanguage].languages;
+
+  const titleFontSize = screenWidth < 400 ? 20 : 24;
+  const fontSize = screenWidth < 400 ? 14 : 16;
+  const warningFontSize = screenWidth < 400 ? 13 : 16;
 
   const handleLanguageChange = (language) => {
     onUserLanguageChange(language);
@@ -31,7 +36,9 @@ const Settings = ({
           onPress={() => handleLanguageChange(languageOption)}
           color={"#0f6f89"}
         />
-        <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
+        <Text style={[styles.optionText, { fontSize: fontSize }]}>
+          {languageOptions[languageOption]}
+        </Text>
       </View>
     );
   };
@@ -47,19 +54,21 @@ const Settings = ({
           disabled={languageOption === userLanguage}
           color={"#0f6f89"}
         />
-        <Text style={styles.optionText}>{languageOptions[languageOption]}</Text>
+        <Text style={[styles.optionText, { fontSize: fontSize }]}>
+          {languageOptions[languageOption]}
+        </Text>
       </View>
     );
   };
 
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>
+      <Text style={[styles.title, { fontSize: titleFontSize }]}>
         {dictionaries[userLanguage].pages.settings.title}
       </Text>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
+        <Text style={[styles.sectionTitle, { fontSize: fontSize }]}>
           {dictionaries[userLanguage].pages.settings.language}
         </Text>
 
@@ -69,7 +78,7 @@ const Settings = ({
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>
+        <Text style={[styles.sectionTitle, { fontSize: fontSize }]}>
           {dictionaries[userLanguage].pages.settings.learn}
         </Text>
 
@@ -80,7 +89,7 @@ const Settings = ({
         )}
 
         {learnLanguages.length === 0 && (
-          <Text style={styles.warning}>
+          <Text style={[styles.warning, { fontSize: warningFontSize }]}>
             {dictionaries[userLanguage].pages.settings.warning}
           </Text>
         )}
@@ -94,9 +103,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   title: {
-    fontSize: 24,
     color: "#fefefe",
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 20,
   },
   section: {
@@ -107,7 +115,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   sectionTitle: {
-    fontSize: 17,
     fontWeight: "bold",
     marginBottom: 8,
     color: "#555555",
@@ -119,12 +126,10 @@ const styles = StyleSheet.create({
   },
   optionText: {
     marginLeft: 8,
-    fontSize: 16,
     color: "#333333",
   },
   warning: {
     marginTop: 8,
-    fontSize: 16,
     color: "#f81717",
   },
 });
