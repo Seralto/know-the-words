@@ -95,14 +95,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     color: "#fefefe",
-    marginTop: 40,
+    marginTop: 20,
     paddingBottom: 10,
   },
   categoriesContainer: {
     justifyContent: "space-around",
     flexWrap: "wrap",
     flexDirection: "row",
-    marginBottom: 30,
   },
   categoryTile: {
     width: 110,

@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     color: "#fefefe",
-    marginTop: 40,
+    marginTop: 20,
     paddingBottom: 10,
   },
   headerControlsBox: {

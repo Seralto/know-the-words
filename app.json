@@ -2,24 +2,24 @@
   "expo": {
     "name": "Know The Words",
     "slug": "know-the-words",
-    "version": "1.5.3",
+    "version": "1.5.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#545771"
+      "backgroundColor": "#334756"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 10,
+      "versionCode": 11,
       "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#545771"
+        "backgroundColor": "#334756"
       },
       "package": "com.seralto.knowthewords"
     },

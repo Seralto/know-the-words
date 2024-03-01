@@ -73,7 +73,9 @@ export default function App() {
   };
 
   useEffect(() => {
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   if (isLoading) {
@@ -213,14 +215,13 @@ const styles = StyleSheet.create({
   },
   pages: {
     flex: 1,
-    marginTop: 20,
-    marginBottom: 76,
+    marginBottom: 70,
   },
   splash: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#545771",
+    backgroundColor: "#334756",
   },
   splashImage: {
     width: "100%",
