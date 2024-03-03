@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Categories from "./components/Categories";
 import BottomMenu from "./components/BottomMenu";
 import Flashcards from "./components/Flashcards";
+import Quiz from "./components/Quiz";
 import Settings from "./components/Settings";
 import OptionsModal from "./components/OptionsModal";
 import About from "./components/About";
@@ -22,6 +23,7 @@ const dictionaries = {
 };
 
 export default function App() {
+  const [score, setScore] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
   const [currentCategory, setCurrentCategory] = useState(DEFAULT_CATEGORY);
@@ -45,6 +47,7 @@ export default function App() {
         "@KnowTheWords:learnLanguages",
         "@KnowTheWords:currentLearnLanguage",
         "@KnowTheWords:currentCategory",
+        "@KnowTheWords:score",
       ];
 
       const dataPromises = keys.map((key) => AsyncStorage.getItem(key));
@@ -54,22 +57,30 @@ export default function App() {
       const learnLanguages = results[1];
       const currentLearnLanguage = results[2];
       const currentCategory = results[3];
+      const score = results[4];
 
+      // User language
       setUserLanguage(userLanguage || DEFAULT_LANGUAGE);
 
+      // Learn languages
       if (learnLanguages === null) {
         setCurrentPage(SETTINGS_PAGE);
       } else {
         setLearnLanguages(learnLanguages.split(","));
       }
 
+      // Current learn language
       if (currentLearnLanguage === null && learnLanguages !== null) {
         setCurrentLearnLanguage(learnLanguages.split(",")[0]);
       } else {
         setCurrentLearnLanguage(currentLearnLanguage);
       }
 
+      // Current category
       setCurrentCategory(currentCategory || DEFAULT_CATEGORY);
+
+      // Score
+      setScore(parseInt(score) || 0);
     } catch (error) {
       loadDefaultData();
     } finally {
@@ -173,6 +184,12 @@ export default function App() {
     setCurrentCategory(nextCategory);
   };
 
+  const handleChangeScore = () => {
+    const newScore = parseInt(score) + 10;
+    setScore(newScore);
+    AsyncStorage.setItem("@KnowTheWords:score", newScore.toString());
+  };
+
   return (
     <View style={styles.app}>
       <View style={styles.pages}>
@@ -195,6 +212,21 @@ export default function App() {
             learnLanguages={learnLanguages}
             currentLearnLanguage={currentLearnLanguage}
             screenWidth={screenWidth}
+            onCurrentLearnLanguageChange={handleCurrentLearnLanguageChange}
+            onNextCategory={(direction) => handleNavCategory(direction)}
+          />
+        )}
+
+        {currentPage === "quiz" && (
+          <Quiz
+            userLanguage={userLanguage}
+            currentCategory={currentCategory}
+            dictionaries={dictionaries}
+            learnLanguages={learnLanguages}
+            currentLearnLanguage={currentLearnLanguage}
+            screenWidth={screenWidth}
+            score={score}
+            onChangeScore={handleChangeScore}
             onCurrentLearnLanguageChange={handleCurrentLearnLanguageChange}
             onNextCategory={(direction) => handleNavCategory(direction)}
           />

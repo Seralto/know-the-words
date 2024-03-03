@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const NUM_OPTIONS = 4;
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
-const Quiz = ({ pageTexts, dictionary }) => {
+const Quiz = ({
+  userLanguage,
+  currentCategory,
+  dictionaries,
+  learnLanguages,
+  currentLearnLanguage,
+  screenWidth,
+  score,
+  onCurrentLearnLanguageChange,
+  onChangeScore,
+  onNextCategory,
+}) => {
   const [randomWord, setRandomWord] = useState("");
   const [options, setOptions] = useState([]);
   const [checkAnswer, setCheckAnswer] = useState(false);
@@ -13,10 +24,29 @@ const Quiz = ({ pageTexts, dictionary }) => {
   const [showNextButton, setshowNextButton] = useState(false);
   const [reversed, setReversed] = useState(false);
 
+  const titleFontSize = screenWidth < 400 ? 20 : 24;
+  const currentCategoryFontSize = screenWidth < 400 ? 18 : 20;
+  const fontSize = screenWidth < 400 ? 15 : 18;
+  const arrowFontSize = screenWidth < 400 ? 20 : 24;
+  const paddingVertical = screenWidth < 400 ? 16 : 20;
+
+  const NUM_OPTIONS = 4;
+
+  const handleNavCategory = (direction) => {
+    onNextCategory(direction);
+    nextQuestion();
+  };
+
+  const handleCurrentLearnLanguage = (language) => {
+    onCurrentLearnLanguageChange(language);
+  };
+
   const getRandomWord = () => {
-    return Object.keys(dictionary)[
-      Math.floor(Math.random() * Object.keys(dictionary).length)
-    ];
+    const wordsList = Object.keys(
+      dictionaries[userLanguage][currentCategory]
+    ).filter((word) => word !== randomWord);
+
+    return wordsList[Math.floor(Math.random() * wordsList.length)];
   };
 
   const shuffle = (options) => {
@@ -25,12 +55,21 @@ const Quiz = ({ pageTexts, dictionary }) => {
 
   const getOptionStyle = (key) => {
     if (key === randomWord && checkAnswer) {
-      return styles.rightOption;
+      return [
+        styles.rightOption,
+        { fontSize: fontSize, paddingVertical: paddingVertical },
+      ];
     } else if (key !== randomWord && key === userAnswer && checkAnswer) {
-      return styles.wrongOption;
+      return [
+        styles.wrongOption,
+        { fontSize: fontSize, paddingVertical: paddingVertical },
+      ];
     }
 
-    return styles.option;
+    return [
+      styles.option,
+      { fontSize: fontSize, paddingVertical: paddingVertical },
+    ];
   };
 
   const matchUserAnswer = (answer) => {
@@ -43,6 +82,8 @@ const Quiz = ({ pageTexts, dictionary }) => {
     setCheckAnswer(true);
 
     if (answer === randomWord) {
+      onChangeScore();
+
       setTimeout(() => {
         setCheckAnswer(false);
         setStartNewGame(true);
@@ -86,50 +127,172 @@ const Quiz = ({ pageTexts, dictionary }) => {
   }
 
   return (
-    <View style={styles.quiz}>
-      <Text style={styles.title}>{pageTexts.title}</Text>
-
-      <Text style={styles.randomWord}>
-        {reversed ? randomWord : dictionary[randomWord]}
+    <View>
+      <Text style={[styles.title, { fontSize: titleFontSize }]}>
+        {dictionaries[userLanguage].pages.names.quiz}
       </Text>
 
-      <View>
-        {options.map((key) => (
-          <TouchableOpacity onPress={() => matchUserAnswer(key)} key={key}>
-            <Text style={getOptionStyle(key)}>
-              {reversed ? dictionary[key] : key}
-            </Text>
-          </TouchableOpacity>
-        ))}
+      <View style={styles.quizContainer}>
+        <View style={styles.headerControlsBox}>
+          <Text
+            style={[
+              styles.currentCategory,
+              { fontSize: currentCategoryFontSize },
+            ]}
+          >
+            {dictionaries[userLanguage].categories[currentCategory].name}
+          </Text>
 
-        {showNextButton && (
-          <TouchableOpacity onPress={nextQuestion}>
-            <Text style={styles.nextButton}>{pageTexts.next}</Text>
+          <TouchableOpacity
+            style={styles.categoryNav}
+            onPress={() => handleNavCategory("prev")}
+          >
+            <FontAwesome5
+              style={[styles.categoryNavButton, { fontSize: arrowFontSize }]}
+              name={"angle-left"}
+              solid
+            />
           </TouchableOpacity>
-        )}
+
+          <TouchableOpacity
+            style={styles.categoryNav}
+            onPress={() => handleNavCategory("next")}
+          >
+            <FontAwesome5
+              style={[styles.categoryNavButton, { fontSize: arrowFontSize }]}
+              name={"angle-right"}
+              solid
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.headerControlsBox}>
+          <Text style={[styles.score, { fontSize: fontSize }]}>
+            Score: {score}
+          </Text>
+
+          {learnLanguages.length > 1 && (
+            <View style={styles.languagesHeaderBox}>
+              {learnLanguages.map((language) => (
+                <TouchableOpacity
+                  key={language}
+                  style={styles.languageHeader}
+                  onPress={() => handleCurrentLearnLanguage(language)}
+                >
+                  <Text
+                    style={[
+                      currentLearnLanguage === language
+                        ? styles.languageHeaderText
+                        : styles.languageHeaderTextDisabled,
+                      { fontSize: fontSize },
+                    ]}
+                  >
+                    {dictionaries[userLanguage].languages[language]}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
+        </View>
+
+        <Text style={[styles.randomWord, { fontSize: fontSize }]}>
+          {reversed
+            ? dictionaries[currentLearnLanguage][currentCategory][randomWord]
+            : dictionaries[userLanguage][currentCategory][randomWord]}
+        </Text>
+
+        <View>
+          {options.map((key) => (
+            <TouchableOpacity onPress={() => matchUserAnswer(key)} key={key}>
+              <Text style={getOptionStyle(key)}>
+                {reversed
+                  ? dictionaries[userLanguage][currentCategory][key]
+                  : dictionaries[currentLearnLanguage][currentCategory][key]}
+              </Text>
+            </TouchableOpacity>
+          ))}
+
+          {showNextButton && (
+            <TouchableOpacity onPress={nextQuestion}>
+              <Text style={[styles.nextButton, { fontSize: fontSize }]}>
+                {dictionaries[userLanguage].pages.quiz.next}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  quiz: {
-    padding: 20,
+  quizContainer: {
+    padding: 15,
   },
   title: {
-    fontSize: 26,
-    color: "#c3c3c3",
-    marginTop: 40,
-    marginBottom: 40,
-    textAlign: "center",
+    color: "#fdfdfd",
+    marginTop: 10,
+    paddingHorizontal: 15,
+  },
+  headerControlsBox: {
+    flexDirection: "row",
+    marginBottom: 15,
+  },
+  currentCategory: {
+    marginRight: 20,
+    color: "#fdfdfd",
+    paddingVertical: 2,
+  },
+  categoryNav: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0f8987",
+    paddingHorizontal: 18,
+    borderRadius: 5,
+    marginRight: 8,
+  },
+  categoryNavButton: {
+    color: "#fdfdfd",
+  },
+  languagesHeaderBox: {
+    flexDirection: "row",
+    marginLeft: "auto",
+  },
+  languageHeader: {
+    paddingLeft: 10,
+    marginTop: 10,
+  },
+  languageHeaderText: {
+    color: "#fefefe",
+    backgroundColor: "#0f6f89",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  languageHeaderTextDisabled: {
+    color: "#fefefe",
+    backgroundColor: "#0f6f89",
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    opacity: 0.2,
+  },
+  score: {
+    color: "#0f8987",
+    backgroundColor: "#323545",
+    borderRadius: 20,
+    paddingHorizontal: 30,
+    paddingVertical: 5,
+    marginRight: "auto",
+    marginTop: 10,
   },
   randomWord: {
-    fontSize: 18,
     color: "#323545",
-    backgroundColor: "#c3c3c3",
+    backgroundColor: "#ececec",
     borderRadius: 10,
-    marginBottom: 35,
-    padding: 20,
+    marginBottom: 20,
+    padding: 16,
   },
   info: {
     flex: 1,
@@ -138,51 +301,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 20,
   },
-  score: {
-    fontSize: 18,
-    color: "#549591",
-    backgroundColor: "#323545",
-    borderRadius: 15,
-    paddingHorizontal: 30,
-    paddingVertical: 5,
-  },
   option: {
-    fontSize: 18,
     backgroundColor: "#323545",
-    color: "#c3c3c3",
+    color: "#ececec",
     borderColor: "#292b38",
     borderStyle: "solid",
-    borderWidth: 3,
-    padding: 20,
+    borderWidth: 2,
+    paddingHorizontal: 20,
     borderRadius: 15,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   rightOption: {
     backgroundColor: "#023220",
-    color: "#c3c3c3",
-    fontSize: 18,
+    color: "#ececec",
     borderColor: "#006c00",
     borderStyle: "solid",
-    borderWidth: 3,
-    padding: 20,
+    borderWidth: 2,
+    paddingHorizontal: 20,
     borderRadius: 15,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   wrongOption: {
     backgroundColor: "#560707",
-    color: "#c3c3c3",
-    fontSize: 18,
+    color: "#ececec",
     borderColor: "#8d0a0a",
     borderStyle: "solid",
-    borderWidth: 3,
-    padding: 20,
+    borderWidth: 2,
+    paddingHorizontal: 20,
     borderRadius: 15,
-    marginBottom: 15,
+    marginBottom: 10,
   },
   nextButton: {
     backgroundColor: "#2196f3",
     color: "#fff",
-    fontSize: 20,
     textAlign: "center",
     paddingVertical: 10,
     borderRadius: 5,

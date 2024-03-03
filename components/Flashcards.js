@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   title: {
-    color: "#fdfdfd",
+    color: "#fefefe",
     marginTop: 10,
     paddingBottom: 10,
   },
@@ -205,20 +205,20 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   categoryNavButton: {
-    color: "#fdfdfd",
+    color: "#fefefe",
   },
   languageHeader: {
     paddingLeft: 10,
   },
   languageHeaderText: {
-    color: "#fdfdfd",
+    color: "#fefefe",
     backgroundColor: "#0f6f89",
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
   },
   languageHeaderTextDisabled: {
-    color: "#fdfdfd",
+    color: "#fefefe",
     backgroundColor: "#0f6f89",
     paddingVertical: 5,
     paddingHorizontal: 10,

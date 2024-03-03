@@ -42,10 +42,10 @@ const BottomMenu = ({
         </Text>
       </TouchableOpacity>
 
-      {/* <TouchableOpacity onPress={() => onPageChange("settings")}>
+      <TouchableOpacity onPress={() => onPageChange("quiz")}>
         <Text
           style={[
-            currentPage === "settings"
+            currentPage === "quiz"
               ? styles.currentOptionText
               : styles.optionText,
             { fontSize: fontSize },
@@ -53,7 +53,7 @@ const BottomMenu = ({
         >
           {dictionaries[userLanguage].pages.names.quiz}
         </Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={() => onShowModal()}>
         <Text
