@@ -6,6 +6,8 @@ import Categories from "./components/Categories";
 import BottomMenu from "./components/BottomMenu";
 import Flashcards from "./components/Flashcards";
 import Settings from "./components/Settings";
+import OptionsModal from "./components/OptionsModal";
+import About from "./components/About";
 
 const SETTINGS_PAGE = "settings";
 const FLASHCARDS_PAGE = "flashcards";
@@ -26,6 +28,7 @@ export default function App() {
   const [userLanguage, setUserLanguage] = useState(DEFAULT_LANGUAGE);
   const [learnLanguages, setLearnLanguages] = useState([]);
   const [currentLearnLanguage, setCurrentLearnLanguage] = useState("");
+  const [modalVisibility, setModalVisibility] = useState(false);
 
   const screenWidth = Dimensions.get("window").width;
 
@@ -99,6 +102,8 @@ export default function App() {
   };
 
   const handlePageChange = (page) => {
+    setModalVisibility(false);
+
     if (learnLanguages.length === 0) {
       setCurrentPage(SETTINGS_PAGE);
     } else {
@@ -130,6 +135,10 @@ export default function App() {
     if (!learnLanguages.includes(currentLearnLanguage)) {
       setCurrentLearnLanguage(learnLanguages[0]);
     }
+  };
+
+  const handleShowModal = () => {
+    setModalVisibility(!modalVisibility);
   };
 
   const handleCurrentLearnLanguageChange = (currentLearnLanguage) => {
@@ -172,9 +181,9 @@ export default function App() {
             userLanguage={userLanguage}
             categories={dictionaries[userLanguage]["categories"]}
             dictionaries={dictionaries}
-            onCategoryChange={handleCategoryChange}
             currentCategory={currentCategory}
             screenWidth={screenWidth}
+            onCategoryChange={handleCategoryChange}
           />
         )}
 
@@ -185,9 +194,9 @@ export default function App() {
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
             currentLearnLanguage={currentLearnLanguage}
+            screenWidth={screenWidth}
             onCurrentLearnLanguageChange={handleCurrentLearnLanguageChange}
             onNextCategory={(direction) => handleNavCategory(direction)}
-            screenWidth={screenWidth}
           />
         )}
 
@@ -196,19 +205,37 @@ export default function App() {
             userLanguage={userLanguage}
             dictionaries={dictionaries}
             learnLanguages={learnLanguages}
+            screenWidth={screenWidth}
             onUserLanguageChange={handleUserLanguageChange}
             onLearnLanguagesChange={handleLearnLanguagesChange}
+          />
+        )}
+
+        {currentPage === "about" && (
+          <About
+            userLanguage={userLanguage}
+            dictionaries={dictionaries}
             screenWidth={screenWidth}
           />
         )}
       </View>
 
+      <OptionsModal
+        userLanguage={userLanguage}
+        dictionaries={dictionaries}
+        modalVisibility={modalVisibility}
+        screenWidth={screenWidth}
+        onShowModal={handleShowModal}
+        onPageChange={handlePageChange}
+      />
+
       <BottomMenu
         userLanguage={userLanguage}
         dictionaries={dictionaries}
-        onPageChange={handlePageChange}
         currentPage={currentPage}
         screenWidth={screenWidth}
+        onPageChange={handlePageChange}
+        onShowModal={handleShowModal}
       />
     </View>
   );

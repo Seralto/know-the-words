@@ -57,7 +57,7 @@ const CategoriesPage = ({
   };
 
   return (
-    <View style={styles.page}>
+    <View>
       <Text style={[styles.title, { fontSize: titleFontSize }]}>
         {dictionaries[userLanguage].pages.names.categories}
       </Text>
@@ -96,7 +96,7 @@ const CategoriesPage = ({
 
 const styles = StyleSheet.create({
   title: {
-    color: "#fefefe",
+    color: "#fdfdfd",
     marginTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 15,
@@ -126,7 +126,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   categoryTitle: {
-    fontSize: 15,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",

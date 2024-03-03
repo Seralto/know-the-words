@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   title: {
-    color: "#fefefe",
+    color: "#fdfdfd",
     marginTop: 10,
     marginBottom: 20,
   },

@@ -7,9 +7,12 @@ const BottomMenu = ({
   onPageChange,
   currentPage,
   screenWidth,
+  onShowModal,
 }) => {
   const fontSize = screenWidth < 400 ? 14 : 16;
-  const padding = screenWidth < 400 ? 8 : 10;
+  const padding = screenWidth < 400 ? 5 : 10;
+
+  const MENU_OPTIONS = ["settings", "about", "my_apps"];
 
   return (
     <View style={[styles.bottomMenu, { paddingVertical: padding }]}>
@@ -39,7 +42,7 @@ const BottomMenu = ({
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => onPageChange("settings")}>
+      {/* <TouchableOpacity onPress={() => onPageChange("settings")}>
         <Text
           style={[
             currentPage === "settings"
@@ -48,7 +51,23 @@ const BottomMenu = ({
             { fontSize: fontSize },
           ]}
         >
-          {dictionaries[userLanguage].pages.names.settings}
+          {dictionaries[userLanguage].pages.names.quiz}
+        </Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity onPress={() => onShowModal()}>
+        <Text
+          style={[
+            [
+              MENU_OPTIONS.includes(currentPage)
+                ? styles.currentOptionText
+                : styles.optionText,
+              { fontSize: fontSize },
+            ],
+            { fontSize: fontSize },
+          ]}
+        >
+          {dictionaries[userLanguage].pages.names.menu}
         </Text>
       </TouchableOpacity>
     </View>

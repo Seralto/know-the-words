@@ -5,16 +5,37 @@
     "es": "Espanhol"
   },
   "pages": {
+    "aboutMe": {
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
+      "youtube": "YouTube",
+      "linkedinUrl": "https://www.linkedin.com/in/seralto",
+      "githubUrl": "https://github.com/seralto",
+      "youtubeUrl": "https://www.youtube.com/user/stoledo13",
+      "site": "http://sergiotoledo.com.br",
+      "email": "contato@sergiotoledo.com.br",
+      "title": "Obrigado por usar o app \nKnow the Words!",
+      "content": "Olá! Meu nome é Sérgio Toledo, sou Engenheiro de Software e apaixonado por programação. \n\nEste app gratuito foi desenvolvido para te auxiliar no aprendizado de Inglês e Espanhol.",
+      "playStoreUrl": "https://play.google.com/store/apps/developer?id=S%C3%A9rgio+Toledo",
+      "myApps": "Conheça meus aplicativos:"
+    },
     "settings": {
       "title": "Configurações",
       "language": "Selecione seu idioma",
       "learn": "Selecione os idiomas que deseja aprender",
       "warning": "Selecione pelo menos um idioma para aprender"
     },
+    "menu": {
+      "back": "Voltar",
+      "about": "Sobre Mim",
+      "myApps": "Meus Apps"
+    },
     "names": {
       "categories": "Categorias",
       "flashcards": "Flashcards",
-      "settings": "Configurações"
+      "settings": "Configurações",
+      "quiz": "Quiz",
+      "menu": "Menu"
     }
   },
   "categories": {
