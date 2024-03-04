@@ -29,6 +29,7 @@ const Flashcards = ({
   const rowMarginBottom = screenWidth < 400 ? 12 : 14;
 
   const UNSORTED_CATEGORIES = ["calendar", "pronouns", "numbers"];
+
   const speak = (text, userLanguage) => {
     if (!isButtonDisabled) {
       Speech.speak(text, {

@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+
+import { Audio } from "expo-av";
 
 const Quiz = ({
   userLanguage,
@@ -23,6 +25,7 @@ const Quiz = ({
   const [userAnswer, setUserAnswer] = useState("");
   const [showNextButton, setshowNextButton] = useState(false);
   const [reversed, setReversed] = useState(false);
+  const [sound, setSound] = useState(true);
 
   const titleFontSize = screenWidth < 400 ? 20 : 24;
   const currentCategoryFontSize = screenWidth < 400 ? 18 : 20;
@@ -33,9 +36,37 @@ const Quiz = ({
 
   const NUM_OPTIONS = 4;
 
+  const soundObject = new Audio.Sound();
+
+  const playSound = async (result) => {
+    if (!sound) {
+      return;
+    }
+
+    if (result == "right") {
+      await soundObject.loadAsync(require("../assets/right-answer.wav"));
+    } else {
+      await soundObject.loadAsync(require("../assets/wrong-answer.wav"));
+    }
+
+    try {
+      await soundObject.playAsync();
+    } catch (_error) {}
+  };
+
+  useEffect(() => {
+    return () => {
+      soundObject.unloadAsync();
+    };
+  }, []);
+
   const handleNavCategory = (direction) => {
     onNextCategory(direction);
     nextQuestion();
+  };
+
+  const handleSound = () => {
+    setSound(!sound);
   };
 
   const handleCurrentLearnLanguage = (language) => {
@@ -83,6 +114,7 @@ const Quiz = ({
     setCheckAnswer(true);
 
     if (answer === randomWord) {
+      playSound("right");
       onChangeScore();
 
       setTimeout(() => {
@@ -91,6 +123,7 @@ const Quiz = ({
         setOptionsDisabled(false);
       }, 1500);
     } else {
+      playSound("wrong");
       setshowNextButton(true);
     }
   };
@@ -144,6 +177,7 @@ const Quiz = ({
             {dictionaries[userLanguage].categories[currentCategory].name}
           </Text>
 
+          {/* Category navigation  */}
           <TouchableOpacity
             style={[styles.categoryNav, { height: arrowHeight }]}
             onPress={() => handleNavCategory("prev")}
@@ -165,13 +199,30 @@ const Quiz = ({
               solid
             />
           </TouchableOpacity>
+
+          {/* Sound  */}
+          <TouchableOpacity
+            style={[
+              sound ? styles.soundOn : styles.soundOff,
+              { height: arrowHeight },
+            ]}
+            onPress={handleSound}
+          >
+            <FontAwesome5
+              style={[styles.categoryNavButton, { fontSize: arrowFontSize }]}
+              name={sound ? "volume-up" : "volume-mute"}
+              solid
+            />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.headerControlsBox}>
+          {/* Score */}
           <Text style={[styles.score, { fontSize: fontSize }]}>
             Score: {score}
           </Text>
 
+          {/* Learn language selectors */}
           {learnLanguages.length > 1 && (
             <View style={styles.languagesHeaderBox}>
               {learnLanguages.map((language) => (
@@ -196,6 +247,7 @@ const Quiz = ({
           )}
         </View>
 
+        {/* Quiz */}
         <Text style={[styles.randomWord, { fontSize: fontSize }]}>
           {reversed
             ? dictionaries[currentLearnLanguage][currentCategory][randomWord]
@@ -255,6 +307,16 @@ const styles = StyleSheet.create({
   },
   categoryNavButton: {
     color: "#fdfdfd",
+  },
+  soundOn: {
+    marginLeft: "auto",
+    paddingVertical: 2,
+  },
+  soundOff: {
+    marginLeft: "auto",
+    paddingVertical: 2,
+    marginRight: 3.5,
+    opacity: 0.2,
   },
   languagesHeaderBox: {
     flexDirection: "row",
@@ -333,8 +395,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   nextButton: {
-    backgroundColor: "#2196f3",
-    color: "#fff",
+    backgroundColor: "#0f6f89",
+    color: "#ececec",
     textAlign: "center",
     paddingVertical: 10,
     borderRadius: 5,
