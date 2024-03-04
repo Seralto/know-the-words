@@ -28,6 +28,7 @@ const Quiz = ({
   const currentCategoryFontSize = screenWidth < 400 ? 18 : 20;
   const fontSize = screenWidth < 400 ? 15 : 18;
   const arrowFontSize = screenWidth < 400 ? 20 : 24;
+  const arrowHeight = screenWidth < 400 ? 28 : 32;
   const paddingVertical = screenWidth < 400 ? 16 : 20;
 
   const NUM_OPTIONS = 4;
@@ -144,7 +145,7 @@ const Quiz = ({
           </Text>
 
           <TouchableOpacity
-            style={styles.categoryNav}
+            style={[styles.categoryNav, { height: arrowHeight }]}
             onPress={() => handleNavCategory("prev")}
           >
             <FontAwesome5
@@ -155,7 +156,7 @@ const Quiz = ({
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.categoryNav}
+            style={[styles.categoryNav, { height: arrowHeight }]}
             onPress={() => handleNavCategory("next")}
           >
             <FontAwesome5
