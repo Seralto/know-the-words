@@ -30,10 +30,16 @@ const Flashcards = ({
 
   const UNSORTED_CATEGORIES = ["calendar", "pronouns", "numbers"];
 
-  const speak = (text, userLanguage) => {
+  const LANGUAGE_MAP = {
+    pt: "pt-BR",
+    en: "en-US",
+    es: "es-ES",
+  };
+
+  const speak = (text) => {
     if (!isButtonDisabled) {
       Speech.speak(text, {
-        language: userLanguage,
+        language: LANGUAGE_MAP[currentLearnLanguage],
       });
 
       setIsButtonDisabled(true);
@@ -63,12 +69,6 @@ const Flashcards = ({
 
   const handleNavCategory = (direction) => {
     onNextCategory(direction);
-  };
-
-  const LANGUAGE_MAP = {
-    pt: "pt-BR",
-    en: "en-US",
-    es: "es-ES",
   };
 
   return (
@@ -142,10 +142,7 @@ const Flashcards = ({
                     disabled={isButtonDisabled}
                     onPress={() =>
                       speak(
-                        dictionaries[currentLearnLanguage][currentCategory][
-                          key
-                        ],
-                        LANGUAGE_MAP[currentLearnLanguage]
+                        dictionaries[currentLearnLanguage][currentCategory][key]
                       )
                     }
                   >

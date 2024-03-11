@@ -2,7 +2,7 @@
   "expo": {
     "name": "Know The Words",
     "slug": "know-the-words",
-    "version": "1.8.5",
+    "version": "1.8.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -15,7 +15,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 15,
+      "versionCode": 16,
       "permissions": [],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
