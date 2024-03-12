@@ -74,9 +74,7 @@ const Quiz = ({
   };
 
   const getRandomWord = () => {
-    const wordsList = Object.keys(
-      dictionaries[userLanguage][currentCategory]
-    ).filter((word) => word !== randomWord);
+    const wordsList = Object.keys(dictionaries[userLanguage][currentCategory]);
 
     return wordsList[Math.floor(Math.random() * wordsList.length)];
   };

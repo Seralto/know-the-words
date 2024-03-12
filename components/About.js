@@ -53,7 +53,7 @@ const About = ({ userLanguage, dictionaries, screenWidth }) => {
         <Text
           style={[styles.info, { fontSize: fontSize }]}
           onPress={() => {
-            Linking.openURL(dictionaries[userLanguage].pages.aboutMe.site);
+            Linking.openURL(dictionaries[userLanguage].pages.aboutMe.siteUrl);
           }}
         >
           {dictionaries[userLanguage].pages.aboutMe.site}
