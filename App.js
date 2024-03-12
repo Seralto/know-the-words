@@ -162,7 +162,7 @@ export default function App() {
 
   const sortedCategories = Object.fromEntries(
     Object.entries(dictionaries[userLanguage]["categories"]).sort(
-      ([keyA, { name: nameA }], [keyB, { name: nameB }]) =>
+      ([_keyA, { name: nameA }], [_keyB, { name: nameB }]) =>
         nameA.localeCompare(nameB)
     )
   );

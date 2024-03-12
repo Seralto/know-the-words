@@ -17,10 +17,14 @@ const Quiz = ({
   onChangeScore,
   onNextCategory,
 }) => {
+  const NUM_OPTIONS = 4;
+
+  const [allWords, setAllWords] = useState([]);
+  const [availableWords, setAvailableWords] = useState([]);
   const [randomWord, setRandomWord] = useState("");
   const [options, setOptions] = useState([]);
   const [checkAnswer, setCheckAnswer] = useState(false);
-  const [startNewGame, setStartNewGame] = useState(true);
+  const [startNewGame, setStartNewGame] = useState(false);
   const [optionsDisabled, setOptionsDisabled] = useState(false);
   const [userAnswer, setUserAnswer] = useState("");
   const [showNextButton, setshowNextButton] = useState(false);
@@ -33,8 +37,6 @@ const Quiz = ({
   const arrowFontSize = screenWidth < 400 ? 20 : 24;
   const arrowHeight = screenWidth < 400 ? 28 : 32;
   const paddingVertical = screenWidth < 400 ? 16 : 20;
-
-  const NUM_OPTIONS = 4;
 
   const soundObject = new Audio.Sound();
 
@@ -55,6 +57,12 @@ const Quiz = ({
   };
 
   useEffect(() => {
+    setAllWords(Object.keys(dictionaries[userLanguage][currentCategory]));
+    setAvailableWords(Object.keys(dictionaries[userLanguage][currentCategory]));
+    setStartNewGame(true);
+  }, [currentCategory]);
+
+  useEffect(() => {
     return () => {
       soundObject.unloadAsync();
     };
@@ -73,9 +81,7 @@ const Quiz = ({
     onCurrentLearnLanguageChange(language);
   };
 
-  const getRandomWord = () => {
-    const wordsList = Object.keys(dictionaries[userLanguage][currentCategory]);
-
+  const getRandomWord = (wordsList) => {
     return wordsList[Math.floor(Math.random() * wordsList.length)];
   };
 
@@ -119,7 +125,7 @@ const Quiz = ({
         setCheckAnswer(false);
         setStartNewGame(true);
         setOptionsDisabled(false);
-      }, 1500);
+      }, 1200);
     } else {
       playSound("wrong");
       setshowNextButton(true);
@@ -137,12 +143,18 @@ const Quiz = ({
   };
 
   const newWordsSet = () => {
-    const newWord = getRandomWord();
+    const newWord = getRandomWord(availableWords);
     setRandomWord(newWord);
+
+    setAvailableWords(availableWords.filter((word) => word !== newWord));
+
+    if (availableWords.length === 1) {
+      setAvailableWords(allWords);
+    }
 
     let newOptions = [newWord];
     while (newOptions.length < NUM_OPTIONS) {
-      const option = getRandomWord();
+      const option = getRandomWord(allWords);
       if (option !== newWord && !newOptions.includes(option)) {
         newOptions.push(option);
       }
@@ -246,30 +258,32 @@ const Quiz = ({
         </View>
 
         {/* Quiz */}
-        <Text style={[styles.randomWord, { fontSize: fontSize }]}>
-          {reversed
-            ? dictionaries[currentLearnLanguage][currentCategory][randomWord]
-            : dictionaries[userLanguage][currentCategory][randomWord]}
-        </Text>
-
         <View>
-          {options.map((key) => (
-            <TouchableOpacity onPress={() => matchUserAnswer(key)} key={key}>
-              <Text style={getOptionStyle(key)}>
-                {reversed
-                  ? dictionaries[userLanguage][currentCategory][key]
-                  : dictionaries[currentLearnLanguage][currentCategory][key]}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          <Text style={[styles.randomWord, { fontSize: fontSize }]}>
+            {reversed
+              ? dictionaries[currentLearnLanguage][currentCategory][randomWord]
+              : dictionaries[userLanguage][currentCategory][randomWord]}
+          </Text>
 
-          {showNextButton && (
-            <TouchableOpacity onPress={nextQuestion}>
-              <Text style={[styles.nextButton, { fontSize: fontSize }]}>
-                {dictionaries[userLanguage].pages.quiz.next}
-              </Text>
-            </TouchableOpacity>
-          )}
+          <View>
+            {options.map((key) => (
+              <TouchableOpacity onPress={() => matchUserAnswer(key)} key={key}>
+                <Text style={getOptionStyle(key)}>
+                  {reversed
+                    ? dictionaries[userLanguage][currentCategory][key]
+                    : dictionaries[currentLearnLanguage][currentCategory][key]}
+                </Text>
+              </TouchableOpacity>
+            ))}
+
+            {showNextButton && (
+              <TouchableOpacity onPress={nextQuestion}>
+                <Text style={[styles.nextButton, { fontSize: fontSize }]}>
+                  {dictionaries[userLanguage].pages.quiz.next}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </View>
     </View>
