@@ -38,15 +38,14 @@ const Flashcards = ({
 
   const speak = (text) => {
     if (!isButtonDisabled) {
-      Speech.speak(text, {
-        language: LANGUAGE_MAP[currentLearnLanguage],
-      });
-
       setIsButtonDisabled(true);
 
-      setTimeout(() => {
-        setIsButtonDisabled(false);
-      }, 800);
+      Speech.speak(text, {
+        language: LANGUAGE_MAP[currentLearnLanguage],
+        onDone: () => {
+          setIsButtonDisabled(false);
+        },
+      });
     }
   };
 
