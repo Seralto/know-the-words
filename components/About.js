@@ -88,11 +88,11 @@ const About = ({ userLanguage, dictionaries, screenWidth }) => {
 const styles = StyleSheet.create({
   about: {
     alignItems: "center",
-    padding: 20,
+    paddingHorizontal: 20,
+    marginTop: 10,
   },
   title: {
     color: "#fdfdfd",
-    marginTop: 15,
     textAlign: "center",
   },
   content: {
