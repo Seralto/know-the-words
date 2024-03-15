@@ -29,7 +29,7 @@ const Quiz = ({
   const [userAnswer, setUserAnswer] = useState("");
   const [showNextButton, setshowNextButton] = useState(false);
   const [reversed, setReversed] = useState(false);
-  const [sound, setSound] = useState(true);
+  const [muted, setMuted] = useState(false);
 
   const titleFontSize = screenWidth < 400 ? 20 : 24;
   const currentCategoryFontSize = screenWidth < 400 ? 18 : 20;
@@ -41,17 +41,21 @@ const Quiz = ({
   const soundObject = new Audio.Sound();
 
   const playSound = async (result) => {
-    if (!sound) {
+    if (muted) {
       return;
     }
 
-    if (result == "right") {
-      await soundObject.loadAsync(require("../assets/right-answer.wav"));
-    } else {
-      await soundObject.loadAsync(require("../assets/wrong-answer.wav"));
-    }
-
     try {
+      soundObject.setOnPlaybackStatusUpdate((status) => {
+        if (!status.didJustFinish) return;
+        soundObject.unloadAsync();
+      });
+
+      if (result == "right") {
+        await soundObject.loadAsync(require("../assets/right-answer.wav"));
+      } else {
+        await soundObject.loadAsync(require("../assets/wrong-answer.wav"));
+      }
       await soundObject.playAsync();
     } catch (_error) {}
   };
@@ -62,19 +66,13 @@ const Quiz = ({
     setStartNewGame(true);
   }, [currentCategory]);
 
-  useEffect(() => {
-    return () => {
-      soundObject.unloadAsync();
-    };
-  }, []);
-
   const handleNavCategory = (direction) => {
     onNextCategory(direction);
     nextQuestion();
   };
 
   const handleSound = () => {
-    setSound(!sound);
+    setMuted(!muted);
   };
 
   const handleCurrentLearnLanguage = (language) => {
@@ -140,6 +138,14 @@ const Quiz = ({
 
   const setDirections = () => {
     return Math.random() < 0.5;
+  };
+
+  const formatScore = (score) => {
+    if (userLanguage === "en") {
+      return score.toLocaleString("en-US");
+    } else {
+      return score.toLocaleString("pt-BR");
+    }
   };
 
   const newWordsSet = () => {
@@ -213,14 +219,14 @@ const Quiz = ({
           {/* Sound  */}
           <TouchableOpacity
             style={[
-              sound ? styles.soundOn : styles.soundOff,
+              muted ? styles.soundOff : styles.soundOn,
               { height: arrowHeight },
             ]}
             onPress={handleSound}
           >
             <FontAwesome5
               style={[styles.categoryNavButton, { fontSize: arrowFontSize }]}
-              name={sound ? "volume-up" : "volume-mute"}
+              name={muted ? "volume-mute" : "volume-up"}
               solid
             />
           </TouchableOpacity>
@@ -229,7 +235,7 @@ const Quiz = ({
         <View style={styles.headerControlsBox}>
           {/* Score */}
           <Text style={[styles.score, { fontSize: fontSize }]}>
-            Score: {score}
+            Score: {formatScore(score)}
           </Text>
 
           {/* Learn language selectors */}
