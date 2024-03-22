@@ -47,6 +47,18 @@ const OptionsModal = ({
             {dictionaries[userLanguage].pages.menu.back.toUpperCase()}
           </Text>
         </TouchableOpacity>
+
+        {/* Debug */}
+        <TouchableOpacity onPress={() => onPageChange("debug")}>
+          <Text
+            style={[
+              styles.menuDebug,
+              { fontSize: fontSize, marginVertical: margin },
+            ]}
+          >
+            Debug
+          </Text>
+        </TouchableOpacity>
       </View>
     </Modal>
   );
@@ -67,6 +79,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#d9d9d9",
     borderWidth: 2,
+  },
+  menuDebug: {
+    textAlign: "center",
+    color: "#fdfdfd",
+    paddingVertical: 10,
+    marginHorizontal: 50,
   },
 });
 

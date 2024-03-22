@@ -9,6 +9,7 @@ import Quiz from "./components/Quiz";
 import Settings from "./components/Settings";
 import OptionsModal from "./components/OptionsModal";
 import About from "./components/About";
+import Debug from "./components/Debug";
 
 const SETTINGS_PAGE = "settings";
 const FLASHCARDS_PAGE = "flashcards";
@@ -250,6 +251,8 @@ export default function App() {
             screenWidth={screenWidth}
           />
         )}
+
+        {currentPage === "debug" && <Debug />}
       </View>
 
       <OptionsModal
