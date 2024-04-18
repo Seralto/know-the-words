@@ -48,17 +48,15 @@ const OptionsModal = ({
           </Text>
         </TouchableOpacity>
 
-        {/* Debug */}
-        <TouchableOpacity onPress={() => onPageChange("debug")}>
-          <Text
-            style={[
-              styles.menuDebug,
-              { fontSize: fontSize, marginVertical: margin },
-            ]}
-          >
-            Debug
-          </Text>
-        </TouchableOpacity>
+        <Text
+          style={[
+            styles.menuDebug,
+            { fontSize: fontSize, marginVertical: margin },
+          ]}
+          onPress={() => onPageChange("debug")}
+        >
+          v 1.9.0
+        </Text>
       </View>
     </Modal>
   );
