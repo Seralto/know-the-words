@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 
@@ -264,7 +270,7 @@ const Quiz = ({
         </View>
 
         {/* Quiz */}
-        <View>
+        <ScrollView>
           <Text style={[styles.randomWord, { fontSize: fontSize }]}>
             {reversed
               ? dictionaries[currentLearnLanguage][currentCategory][randomWord]
@@ -290,7 +296,7 @@ const Quiz = ({
               </TouchableOpacity>
             )}
           </View>
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
