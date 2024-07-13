@@ -44,13 +44,13 @@ const Debug = () => {
 
       <View style={styles.container}>
         <Text style={styles.text}>
-          ¡Hola Mundo! Estoy hablando en Espanhol. Llamar de nuevo.
+          ¡Hola Mundo! Estoy hablando en Español. Llamar de nuevo.
         </Text>
         <Button
           title="Spanish"
           onPress={() =>
             speak(
-              "¡Hola Mundo! Estoy hablando en Espanhol. Llamar de nuevo.",
+              "¡Hola Mundo! Estoy hablando en Español. Llamar de nuevo.",
               "es-ES"
             )
           }
