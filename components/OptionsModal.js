@@ -55,7 +55,7 @@ const OptionsModal = ({
           ]}
           onPress={() => onPageChange("debug")}
         >
-          v 1.9.0
+          v 1.9.2
         </Text>
       </View>
     </Modal>
